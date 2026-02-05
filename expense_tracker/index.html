@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>💰 Expense Tracker</h2>
+
+        <div class="balance-box">
+            <h3>Current Balance</h3>
+            <h1>₹ <span id="balance">0</span></h1>
+        </div>
+
+        <div class="summary">
+            <div class="income">
+                Income <br> ₹ <span id="income">0</span>
+            </div>
+            <div class="expense">
+                Expense <br> ₹ <span id="expense">0</span>
+            </div>
+        </div>
+
+        <ul id="list"></ul>
+
+        <form id="form">
+            <h3>Add Transaction</h3>
+
+            <input type="text" id="text" placeholder="Description" required>
+
+            <input type="number" id="amount" placeholder="Amount" required>
+
+            <select id="type" required>
+                <option value="">Select Type</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+
+            <button>Add Transaction</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Web Tech Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <h1>Web Technologies Quiz</h1>
+    <div class="quiz-container">
+        <div id="topicSelect">
+            <p style="font-size:1.1rem; font-weight:bold;">Select a topic to start the quiz:</p>
+            <button onclick="startQuiz('HTML')">HTML</button>
+            <button onclick="startQuiz('CSS')">CSS</button>
+            <button onclick="startQuiz('JavaScript')">JavaScript</button>
+            <button onclick="startQuiz('Bootstrap')">Bootstrap</button>
+        </div>
+
+        <div id="quiz" style="display:none;"></div>
+        <button id="nextBtn" style="display:none;">Next Question</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
