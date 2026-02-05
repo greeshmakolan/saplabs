@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+</head>
+
+<body>
+    <h2>User Registration</h2>
+
+    <form>
+        <fieldset>
+            <legend>Student Registration Form</legend>
+
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Enter username" required><br><br>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Enter email" required><br><br>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Enter password" required><br><br>
+
+            <label for="confirmpassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" placeholder="Confirm password" required><br><br>
+
+            <label for="message">Message</label>
+            <textarea rows="4" cols="45" id="message" name="Message" placeholder="Enter Message"
+                required></textarea><br><br>
+
+            <label>Choose a country</label>
+            <select name="country" required>
+                <option value="">-- Select Country --</option>
+                <option value="India">India</option>
+                <option value="Russia">Russia</option>
+                <option value="USA">USA</option>
+                <option value="Europe">Europe</option>
+            </select><br><br>
+            <input type="file"><br><br>f
+            <button type="submit">submit</button>
+            <button type="reset">Clear</button>
+            <button type="button" onclick="alert('Hello!')">Click Me</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>Login information</legend>
+            <label for="user">Username</label>
+            <input type="text" id="user" name="user"><br><br>
+            <label for="pass">Password</label>
+            <input type="password" id="pass" name="pass"><br><br>
+            <label for="branch">Choose Branch</label>
+            <input list="branches" id="branch" name="branch">
+            <datalist id="branches">
+                <option value="CSE">
+                <option value="ECE">
+                <option value="EEE">
+                <option value="EIE">
+                <option value="IT">
+            </datalist><br>
+            <label for="course">Choose a course</label>
+            <select id="course" name="course">
+                <optgroup label="Programming">
+                    <option value="c">C Language</option>
+                    <option value="python">Python</option>
+                </optgroup>
+                <optgroup label="Web Development">
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                </optgroup>
+            </select>
+            <button type="submit">Log in</button>
+        </fieldset><br><br>
+
+    </form>
+    <form oninput="sum.value=parseInt(a.value)+parseInt(b.value)">
+        <h1>Addition</h1>
+        <input type="number" id="a" name="a" value="10">+
+        <input type="number" id="b" name="b" value="20">=
+        <output name="sum">30</output><br><br>
+    </form>
+
+</body>
+
+</html>

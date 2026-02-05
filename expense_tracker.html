@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .balance-box {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .balance-box h3 {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .balance-box h1 {
+            margin: 10px 0 0;
+            font-size: 32px;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .summary div {
+            width: 48%;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .income {
+            background: #e8f9f1;
+            color: #2ecc71;
+        }
+
+        .expense {
+            background: #fdecea;
+            color: #e74c3c;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        li {
+            background: #f5f6fa;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        li.plus {
+            border-left: 5px solid #2ecc71;
+        }
+
+        li.minus {
+            border-left: 5px solid #e74c3c;
+        }
+
+        form h3 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>💰 Expense Tracker</h2>
+
+        <div class="balance-box">
+            <h3>Current Balance</h3>
+            <h1>₹ <span id="balance">0</span></h1>
+        </div>
+
+        <div class="summary">
+            <div class="income">
+                Income <br> ₹ <span id="income">0</span>
+            </div>
+            <div class="expense">
+                Expense <br> ₹ <span id="expense">0</span>
+            </div>
+        </div>
+
+        <ul id="list"></ul>
+
+        <form id="form">
+            <h3>Add Transaction</h3>
+
+            <input type="text" id="text" placeholder="Description" required>
+
+            <input type="number" id="amount" placeholder="Amount" required>
+
+            <select id="type" required>
+                <option value="">Select Type</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+
+            <button>Add Transaction</button>
+        </form>
+    </div>
+
+    <script>
+        const balance = document.getElementById('balance');
+        const income = document.getElementById('income');
+        const expense = document.getElementById('expense');
+        const list = document.getElementById('list');
+        const form = document.getElementById('form');
+        const text = document.getElementById('text');
+        const amount = document.getElementById('amount');
+        const type = document.getElementById('type');
+
+        let transactions = [];
+
+        function updateValues() {
+            const amounts = transactions.map(t => t.amount);
+
+            const total = amounts.reduce((acc, item) => acc + item, 0);
+            const inc = amounts.filter(a => a > 0).reduce((acc, a) => acc + a, 0);
+            const exp = amounts.filter(a => a < 0).reduce((acc, a) => acc + a, 0) * -1;
+
+            balance.textContent = total.toFixed(2);
+            income.textContent = inc.toFixed(2);
+            expense.textContent = exp.toFixed(2);
+        }
+
+        function addTransactionDOM(transaction) {
+            const item = document.createElement('li');
+            item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+            const sign = transaction.amount < 0 ? '-' : '+';
+
+            item.innerHTML = `
+        ${transaction.text}
+        <span>${sign}₹${Math.abs(transaction.amount)}</span>
+      `;
+
+            list.appendChild(item);
+        }
+
+        function addTransaction(e) {
+            e.preventDefault();
+
+            let value = +amount.value;
+            if (type.value === "expense") value = -value;
+
+            const transaction = {
+                id: Date.now(),
+                text: text.value,
+                amount: value
+            };
+
+            transactions.push(transaction);
+            addTransactionDOM(transaction);
+            updateValues();
+
+            text.value = '';
+            amount.value = '';
+            type.value = '';
+        }
+
+        form.addEventListener('submit', addTransaction);
+    </script>
+
+</body>
+
+</html>

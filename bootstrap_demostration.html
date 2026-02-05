@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 70px;
+            /* Prevents carousel from being hidden under fixed navbar */
+        }
+
+        .carousel-item img {
+            height: 580px;
+            object-fit: cover;
+        }
+
+        .card-img-top {
+            height: 200px;
+            /* adjust height as needed */
+            object-fit: cover;
+            /* crops image to fit without distortion */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="C:\Users\kolan\saplabs\image.jpg" alt="Logo" width="30"
+                    height="24" class="d-inline-block align-text-top rounded-circle">My Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fav">Favourite Places</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="home" class="container text-center my-5">
+        <h1 class="mb-4">Welcome to My Portfolio</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <img src="C:\Users\kolan\saplabs\image.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">This is Greeshma, a Java Full Stack Developer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Kolan Greeshma</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Java Full Stack Developer</h6>
+                        <p class="card-text">
+                            I specialize in crafting responsive websites with clean layouts, creative CSS borders,
+                            and interactive Bootstrap components. My portfolio showcases projects that combine
+                            technical precision with aesthetic polish, reflecting my passion for design and
+                            functionality.
+                        </p>
+                        <a href="https://github.com/greeshmakolan" target="_blank" class="card-link">GitHub</a>
+                        <a href="https://leetcode.com/u/greeshmakolan/" target="_blank" class="card-link">LeetCode</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects" class="container text-center my-5">
+        <h1 class="mb-4 bg-secondary text-white p-3 text-center">My Projects</h1>
+        <div class="row g-4">
+
+            <!-- Card 1 -->
+            <div class="col-md-4">
+                <div class="card h-100" onclick="showProject('project1')">
+                    <img src="https://www.ubisecure.com/wp-content/uploads/2019/12/General-Election-piece.png"
+                        class="card-img-top" alt="Online Election Voting System">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">Online Election Voting System</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-4">
+                <div class="card h-100" onclick="showProject('project2')">
+                    <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/620/909/datas/original.png"
+                        class="card-img-top" alt="Travel and Tourism Management System">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Travel and Tourism Management System</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4">
+                <div class="card h-100" onclick="showProject('project3')">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4zK2aat3ZBLgTOYbkNBtwbw8ArrkRa2aCjg&s"
+                        class="card-img-top" alt="Colorectal Project">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Reduce Training Cost of Colorectal</h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Hidden Project Descriptions -->
+    <section id="project1" class="container my-5 d-none">
+        <h2 class="text-primary mb-3">Online Election Voting System</h2>
+        <p>
+            The Online Election Voting System is designed to modernize the democratic process by
+            providing a secure, transparent, and user-friendly digital platform for casting votes.
+            It ensures voter authentication, prevents fraud, and delivers real-time results while
+            maintaining confidentiality.
+        </p>
+        <ul class="list-group text-start">
+            <li class="list-group-item">🔒 Secure login with voter authentication</li>
+            <li class="list-group-item">🗳 Digital ballot submission with encryption</li>
+            <li class="list-group-item">📊 Real-time vote counting dashboard</li>
+            <li class="list-group-item">📑 Audit trails for transparency and accountability</li>
+        </ul>
+        <div class="mt-4">
+            <h5>User Comments</h5>
+            <ul id="comments-project1" class="list-group mb-3"></ul>
+            <div class="input-group">
+                <input type="text" id="commentInput-project1" class="form-control" placeholder="Add a comment...">
+                <button class="btn btn-primary" onclick="addComment('project1')">Submit</button>
+            </div>
+        </div>
+
+        <button class="btn btn-secondary mt-3" onclick="backToProjects()">⬅ Back to Projects</button>
+    </section>
+
+    <section id="project2" class="container my-5 d-none">
+        <h2 class="text-success mb-3">Travel and Tourism Management System</h2>
+        <p>
+            This system simplifies travel planning by integrating booking, itinerary management,
+            and tourism services into one platform. It enhances customer experience and helps
+            agencies manage resources efficiently.
+        </p>
+        <ul class="list-group text-start">
+            <li class="list-group-item">✈️ Flight, hotel, and transport booking integration</li>
+            <li class="list-group-item">📅 Personalized itinerary generation</li>
+            <li class="list-group-item">🌍 Destination guides and recommendations</li>
+            <li class="list-group-item">💳 Secure payment gateway</li>
+        </ul>
+        <div class="mt-4">
+            <h5>User Comments</h5>
+            <ul id="comments-project1" class="list-group mb-3"></ul>
+            <div class="input-group">
+                <input type="text" id="commentInput-project1" class="form-control" placeholder="Add a comment...">
+                <button class="btn btn-primary" onclick="addComment('project1')">Submit</button>
+            </div>
+        </div>
+        <button class="btn btn-secondary mt-3" onclick="backToProjects()">⬅ Back to Projects</button>
+    </section>
+
+    <section id="project3" class="container my-5 d-none">
+        <h2 class="text-danger mb-3">Colorectal Cancer Diagnosis</h2>
+        <p>
+            This project leverages machine learning to reduce training costs in colorectal cancer
+            diagnosis. By optimizing datasets and algorithms, it improves accuracy while lowering
+            computational expenses, making AI-assisted healthcare more accessible.
+        </p>
+        <ul class="list-group text-start">
+            <li class="list-group-item">🧬 AI-driven image analysis for early detection</li>
+            <li class="list-group-item">⚡ Reduced training time with optimized datasets</li>
+            <li class="list-group-item">📉 Lower computational costs for hospitals</li>
+            <li class="list-group-item">🏥 Scalable solution for healthcare institutions</li>
+        </ul>
+        <div class="mt-4">
+            <h5>User Comments</h5>
+            <ul id="comments-project1" class="list-group mb-3"></ul>
+            <div class="input-group">
+                <input type="text" id="commentInput-project1" class="form-control" placeholder="Add a comment...">
+                <button class="btn btn-primary" onclick="addComment('project1')">Submit</button>
+            </div>
+        </div>
+        <button class="btn btn-secondary mt-3" onclick="backToProjects()">⬅ Back to Projects</button>
+    </section>
+
+
+    <section id="fav" class="container text-center my-5">
+        <h1 class="mb-4 bg-dark text-white p-3 text-center">My favouite places</h1>
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://static.investindia.gov.in/s3fs-public/2023-06/1.jpg" class="d-block w-100"
+                        alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://static.investindia.gov.in/s3fs-public/2023-06/shutterstock_1975446140.jpg"
+                        class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://static.investindia.gov.in/s3fs-public/2020-12/shutterstock_1195751923.jpg"
+                        class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+    <section id="skills" class="container my-5 text-center">
+        <h1 class="mb-4 bg-warning text-dark p-3">My Skills</h1>
+
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <span class="badge rounded-pill bg-primary p-3">Java</span>
+            <span class="badge rounded-pill bg-success p-3">Python</span>
+            <span class="badge rounded-pill bg-info text-dark p-3">HTML</span>
+            <span class="badge rounded-pill bg-danger p-3">CSS</span>
+            <span class="badge rounded-pill bg-secondary p-3">Javascript</span>
+            <span class="badge rounded-pill bg-dark p-3">React</span>
+            <span class="badge rounded-pill bg-warning text-dark p-3">Node js</span>
+            <span class="badge rounded-pill bg-success p-3">MySQL</span>
+        </div>
+    </section>
+    <section id="contact" class="container my-5">
+        <h1 class="mb-4 bg-info text-white p-3 text-center">Contact Me</h1>
+
+        <form class="row g-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Your Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <div class="col-12">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Write your message..."></textarea>
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </div>
+        </form>
+    </section>
+
+    <button id="mainsubmit" type="button" class="btn btn-primary">Submit</button>
+
+    <!-- Bootstrap JS -->
+    <script>
+        function showProject(id) {
+            // Hide all main sections in one line
+            document.querySelectorAll('#home, #projects, #fav,#contact,#skills, mainsubmit').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Hide all project detail sections
+            document.querySelectorAll('#project1, #project2, #project3').forEach(el => {
+                el.classList.add('d-none');
+                el.style.display = 'none';
+            });
+
+            // Show only the clicked project description
+            const project = document.getElementById(id);
+            project.classList.remove('d-none');
+            project.style.display = 'block';
+        }
+
+        function backToProjects() {
+            // Hide all project detail sections
+            document.querySelectorAll('#project1, #project2, #project3').forEach(el => {
+                el.classList.add('d-none');
+                el.style.display = 'none';
+            });
+
+            // Show all main sections again in one line
+            document.querySelectorAll('#home, #projects, #fav,#contact,#skills, mainsubmit').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+        function addComment(projectId) {
+            const input = document.getElementById(`commentInput-${projectId}`);
+            const commentList = document.getElementById(`comments-${projectId}`);
+
+            if (input.value.trim() !== "") {
+                const li = document.createElement("li");
+                li.className = "list-group-item";
+                li.textContent = input.value;
+                commentList.appendChild(li);
+                input.value = ""; // clear input
+            }
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

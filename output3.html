@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Try it</title>
+</head>
+
+<body>
+    <a href="https://www.example.com" id="myLink">Go to Example</a>
+    <script>
+        document.getElementById('myLink').addEventListener('click', function () {
+            event.preventDefault();
+            console.log('Link click prevented');
+        });
+    </script>
+</body>
+
+</html>

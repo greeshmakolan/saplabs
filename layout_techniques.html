@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Column Layout Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .article {
+            column-count: 3;
+            /* divide into 3 columns */
+            column-gap: 30px;
+            /* gap between columns */
+            column-rule: 2px solid #ccc;
+            /* vertical line between columns */
+        }
+
+        .article p {
+            break-inside: avoid;
+            /* prevent paragraph splitting */
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Multi-Column Article Layout</h1>
+
+    <div class="article">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae sapien nec nulla gravida fermentum.
+            Integer vel ligula nec mi malesuada dapibus.</p>
+        <p>Curabitur euismod, nisl nec tincidunt ullamcorper, justo sapien facilisis nulla, nec tincidunt lorem eros nec
+            magna. Suspendisse potenti.</p>
+        <p>Aliquam erat volutpat. Vivamus vel leo nec sapien bibendum tincidunt. Donec ac eros sed justo tincidunt
+            tincidunt.</p>
+        <p>Phasellus ac felis nec magna tincidunt suscipit. Sed sit amet purus nec lorem interdum facilisis. Integer ac
+            felis nec libero varius tincidunt.</p>
+        <p>Morbi non risus nec nulla fermentum tincidunt. Donec ac nunc nec sapien tincidunt tincidunt. Sed ac felis nec
+            libero varius tincidunt.</p>
+        <p>Praesent nec sapien nec libero varius tincidunt. Sed ac felis nec libero varius tincidunt. Integer ac felis
+            nec libero varius tincidunt.</p>
+        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed ac felis nec
+            libero varius tincidunt.</p>
+        <p>Nam nec sapien nec libero varius tincidunt. Sed ac felis nec libero varius tincidunt. Integer ac felis nec
+            libero varius tincidunt.</p>
+        <p>Ut nec sapien nec libero varius tincidunt. Sed ac felis nec libero varius tincidunt. Integer ac felis nec
+            libero varius tincidunt.</p>
+        <p>Donec nec sapien nec libero varius tincidunt. Sed ac felis nec libero varius tincidunt. Integer ac felis nec
+            libero varius tincidunt.</p>
+        <p>Extra text to make the page scrollable. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae
+            sapien nec nulla gravida fermentum.</p>
+        <p>More filler text to ensure scrolling. Curabitur euismod, nisl nec tincidunt ullamcorper, justo sapien
+            facilisis nulla, nec tincidunt lorem eros nec magna.</p>
+        <p>Even more filler text. Aliquam erat volutpat. Vivamus vel leo nec sapien bibendum tincidunt. Donec ac eros
+            sed justo tincidunt tincidunt.</p>
+        <p>Keep adding paragraphs until scrolling is required. Phasellus ac felis nec magna tincidunt suscipit. Sed sit
+            amet purus nec lorem interdum facilisis.</p>
+    </div>
+
+</body>
+
+</html>

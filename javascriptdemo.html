@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Javascript Demo</title>
+</head>
+
+<body>
+    <button onclick="sayHello()">Click Here</button>
+    <img id="myImage"
+        src="https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg?cs=srgb&dl=landscape-nature-sky-236047.jpg&fm=jpg"
+        alt="Demo Image" width="300" onclick="toggleImage()">
+
+    <script>
+        function sayHello() {
+            alert("Hello World");
+        }
+
+        function toggleImage() {
+            let img = document.getElementById("myImage");
+
+            if (img.src == "https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg?cs=srgb&dl=landscape-nature-sky-236047.jpg&fm=jpg") {
+                img.src = "https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?cs=srgb&dl=daylight-environment-forest-459225.jpg&fm=jpg";
+            } else {
+                img.src = "https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg?cs=srgb&dl=landscape-nature-sky-236047.jpg&fm=jpg";
+            }
+        }
+        /*
+            // Use endsWith or includes to match filename
+            if (img.src.endsWith("profile1.jpg")) {
+            img.src = "C:/Users/kolan/saplabs/profile2.jpg";
+            } else {
+            img.src = "C:/Users/kolan/saplabs/profile1.jpg";
+            }*/
+    </script>
+</body>
+
+</html>

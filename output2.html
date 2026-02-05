@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Try it</title>
+</head>
+
+<body>
+    <div id="container">
+        <button id="addButton">Add Item</button>
+    </div>
+    <script>
+        document.getElementById('addButton').addEventListener('click', function () {
+            let newItem = document.createElement('button');
+            newItem.textContent = 'New Button';
+            newItem.addEventListener('click', function () {
+                console.log('New Button Clicked');
+            });
+            document.getElementById('container').appendChild(newItem)
+        });
+    </script>
+</body>
+
+</html>

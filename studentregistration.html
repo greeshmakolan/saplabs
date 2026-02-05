@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Registration</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #1a73e8;
+        }
+
+        /* Button Styles */
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #showFormBtn {
+            background-color: #1a73e8;
+            color: #fff;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #showFormBtn:hover {
+            background-color: #155ab6;
+        }
+
+        button[type="button"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        button[type="button"]:hover {
+            background-color: #218838;
+        }
+
+        button[type="reset"] {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #c82333;
+        }
+
+        .remove-btn {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #fff;
+            padding: 25px 30px;
+            margin: 20px auto;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: #1a73e8;
+            outline: none;
+        }
+
+        #msg {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        /* Table Styles */
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e8f0fe;
+        }
+
+        tr.selected {
+            background-color: #cce4ff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Student Registration</h1>
+
+    <!-- Add Student button -->
+    <button id="showFormBtn">Add Student</button>
+
+    <!-- Registration Form (hidden initially) -->
+    <form id="registration_form">
+        <label for="std_name">Name</label>
+        <input type="text" id="std_name" name="std_name" placeholder="Enter Name">
+
+        <label for="std_email">Email</label>
+        <input type="email" id="std_email" name="std_email" placeholder="Enter Email">
+
+        <label for="std_password">Password</label>
+        <input type="password" id="std_password" name="std_password" placeholder="Enter password">
+
+        <label for="std_re-enter">Re-Enter Password</label>
+        <input type="password" id="std_re-enter" name="std_re-enter" placeholder="Re-Enter password">
+
+        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="reset">Reset</button>
+        <p id="msg"></p>
+    </form>
+
+    <h2>Registered Students</h2>
+    <table id="students_table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const students = [];
+        const form = document.getElementById('registration_form');
+        const msg = document.getElementById('msg');
+        const tableBody = document.querySelector('#students_table tbody');
+        const showFormBtn = document.getElementById('showFormBtn');
+
+        // Show form when "Add Student" button clicked
+        showFormBtn.addEventListener('click', () => {
+            form.style.display = 'block';
+            showFormBtn.style.display = 'none';
+            msg.textContent = '';
+        });
+
+        function submitForm() {
+            const name = document.getElementById('std_name').value.trim();
+            const email = document.getElementById('std_email').value.trim();
+            const password = document.getElementById('std_password').value.trim();
+            const reenter = document.getElementById('std_re-enter').value.trim();
+
+            msg.textContent = '';
+            msg.className = '';
+
+            // Validation
+            if (!name || !email || !password || !reenter) {
+                msg.textContent = ❌ Error: All fields are required!;
+                msg.className = 'error';
+                return;
+            }
+
+            if (password !== reenter) {
+                msg.textContent = ❌ Error: Password does not match re - entered password!;
+                msg.className = 'error';
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                msg.textContent = ❌ Error: Email format is invalid!;
+                msg.className = 'error';
+                return;
+            }
+
+            // Add student
+            const student = { name, email, password };
+            students.push(student);
+            renderTable();
+
+            // Show success message
+            msg.textContent = ✅ Success: Student "${name}" registered successfully!;
+            msg.className = 'success';
+
+            // Reset form and hide it, show "Add Student" button
+            form.reset();
+            form.style.display = 'none';
+            showFormBtn.style.display = 'inline-block';
+        }
+
+        // Render table
+        function renderTable() {
+            tableBody.innerHTML = '';
+            students.forEach((student, index) => {
+                const tr = document.createElement('tr');
+                tr.dataset.index = index;
+                tr.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.password}</td>
+                    <td><span class="remove-btn">Remove</span></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Event delegation for remove button & row highlight
+        tableBody.addEventListener('click', function (e) {
+            const tr = e.target.closest('tr');
+            if (!tr) return;
+
+            // Highlight row
+            tableBody.querySelectorAll('tr').forEach(row => row.classList.remove('selected'));
+            tr.classList.add('selected');
+
+            // Remove student
+            if (e.target.classList.contains('remove-btn')) {
+                const index = tr.dataset.index;
+                const removed = students.splice(index, 1)[0];
+                renderTable();
+                msg.textContent = ✅ Success: Student "${removed.name}" removed!;
+                msg.className = 'success';
+            }
+        });
+    </script>
+</body>
+
+</html>

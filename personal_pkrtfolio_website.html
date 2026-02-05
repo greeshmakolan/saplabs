@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolan Greeshma - Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            background: linear-gradient(90deg, #dd6bb3, #74baea);
+            padding: 15px;
+            display: flex;
+            justify-content: flex-start;
+            /* keep items aligned left */
+            align-items: center;
+        }
+
+        nav .brand {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.2rem;
+            margin-right: 30px;
+            /* space between name and links */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #64c4df, #fad0c4);
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            margin: 5px 0;
+        }
+
+        .hero .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #0062E6;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        /* Section headings */
+        section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* About */
+        #about {
+            background: linear-gradient(135deg, #e3f2fd, #f9fbe7);
+            padding: 50px 20px;
+        }
+
+        #about p {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Skills */
+        #skills {
+            background: linear-gradient(90deg, #f0f4f6, #ebeef0);
+            ;
+            padding: 50px 20px;
+        }
+
+        #skills .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .skill-bubble {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .java {
+            background: #0062E6;
+        }
+
+        .python {
+            background: #28a745;
+        }
+
+        .dsa {
+            background: #dc3545;
+        }
+
+        .javascript {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .html {
+            background: #17a2b8;
+        }
+
+        .css {
+            background: #6c757d;
+        }
+
+        .sql {
+            background: #343a40;
+        }
+
+        .mongodb {
+            background: #0062E6;
+        }
+
+        .git {
+            background: #28a745;
+        }
+
+        .eclipse {
+            background: #dc3545;
+        }
+
+        .netbeans {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .english {
+            background: #17a2b8;
+        }
+
+        .telugu {
+            background: #6c757d;
+        }
+
+        #projects {
+            background: linear-gradient(135deg, #fff3e0, #e1f5fe);
+            padding: 50px 20px;
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            border-radius: 8px;
+            padding: 20px;
+            color: #333;
+            /* dark text for readability */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Light, decent gradients for each project */
+        .project1 {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+        }
+
+        /* Soft Blue */
+
+        .project2 {
+            background: linear-gradient(135deg, #f1f8e9, #c8e6c9);
+        }
+
+        /* Gentle Green */
+
+        .project3 {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+        }
+
+        /* Light Pink */
+
+        .card h5 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #222;
+            /* heading stands out */
+        }
+
+        /* Contact */
+        #contact {
+            background: #f8f9fa;
+            padding: 50px 20px;
+        }
+
+        #contact form {
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #contact input,
+        #contact textarea {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #contact button {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #contact button:hover {
+            background: #218838;
+        }
+
+        /* Footer */
+        footer {
+            background: #88bbca;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .projects-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="brand">Kolan Greeshma</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Hello, I'm Kolan Greeshma</h1>
+        <p>Java Full Stack Developer | Frontend Designer</p>
+        <p>
+            <a href="mailto:kolangreeshma@gmail.com" style="color:blue; text-decoration:underline;">
+                kolangreeshma@gmail.com
+            </a>
+            |
+            <a href="tel:+919063016760" style="color:blue; text-decoration:underline;">
+                +91 9063016760
+            </a>
+        </p>
+        <a href="https://linkedin.com" class="btn btn-primary">LinkedIn</a>
+        <a href="#" class="btn btn-success">Portfolio</a>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p>
+            A dedicated and enthusiastic individual passionate towards software application
+            development seeking an entry-level position at a well-reputed organization to enhance my knowledge and
+            gain hands-on experience in a professional environment. Passionate about applying my skills to drive
+            company success through continuous learning, innovation, and delivering high-quality solutions.
+        </p>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-container">
+            <span class="skill-bubble java">Java</span>
+            <span class="skill-bubble python">Python</span>
+            <span class="skill-bubble dsa">DSA</span>
+            <span class="skill-bubble javascript">JavaScript</span>
+            <span class="skill-bubble html">HTML</span>
+            <span class="skill-bubble css">CSS</span>
+            <span class="skill-bubble sql">SQL</span>
+            <span class="skill-bubble mongodb">MongoDB</span>
+            <span class="skill-bubble git">Git</span>
+            <span class="skill-bubble eclipse">Eclipse</span>
+            <span class="skill-bubble netbeans">NetBeans</span>
+            <span class="skill-bubble english">English</span>
+            <span class="skill-bubble telugu">Telugu</span>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <!-- Projects -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-container">
+            <div class="card project1">
+                <h5>Online Election Voting System</h5>
+                <p>Technologies: JavaScript, HTML, CSS, PHP, SQL</p>
+                <p>Developed a secure and scalable online voting platform enabling citizens to cast votes remotely.</p>
+            </div>
+            <div class="card project2">
+                <h5>Travel and Tourism Management System</h5>
+                <p>Technologies: Java, SQL</p>
+                <p>Built a Java-MySQL travel platform with booking, guides, reviews, and workflow automation.</p>
+            </div>
+            <div class="card project3">
+                <h5>Deep Learning Model for Cancer Diagnosis</h5>
+                <p>Technologies: Python, Deep Learning</p>
+                <p>Developing a resource‑efficient model for colorectal cancer detection using pruning and optimization.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Kolan Greeshma. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for form validation -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (name === "" || email === "" || message === "") {
+                alert("All fields are required.");
+                return;
+            }
+            if (!email.match(emailPattern)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            alert("Message sent successfully!");
+            this.reset();
+        });
+    </script>
+
+</body>
+
+</html>

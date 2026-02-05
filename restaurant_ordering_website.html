@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(90deg, rgb(231, 137, 50), rgb(244, 162, 10));
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+
+    header h1 {
+      margin: 0;
+    }
+
+    footer {
+      background: rgb(231, 137, 50);
+      color: white;
+      margin-top: 50px;
+      padding: 30px 20px;
+    }
+
+    .footer-container {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .footer-container h3 {
+      margin-bottom: 10px;
+    }
+
+    .footer-container p,
+    .footer-container a {
+      font-size: 0.95rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-container a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      padding-top: 10px;
+    }
+
+
+    nav {
+      background: rgb(240, 161, 50);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav a.active {
+      color: #e55415;
+      border-bottom: 3px solid #ed5514;
+      padding-bottom: 5px;
+    }
+
+    nav a:hover {
+      color: #ff6f61;
+    }
+
+    .cart-icon {
+      cursor: pointer;
+      font-size: 1.2rem;
+      background: #fff;
+      color: #ff6f61;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    /* Home Page Full Screen Dashboard */
+    .home-hero {
+      width: 100%;
+      height: 100vh;
+      background-image: url("https://img.freepik.com/free-photo/restaurant-interior_1127-3394.jpg");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .home-overlay {
+      background: rgba(0, 0, 0, 0.55);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .home-overlay h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    .home-overlay p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+
+    .home-overlay button {
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .home-overlay button:hover {
+      background: #e85c50;
+    }
+
+    #homeMenu {
+      max-width: 1000px;
+      margin: 30px auto;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    #homeMenu .item-card {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #homeMenu .item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .dashboard {
+      display: none;
+      max-width: 1000px;
+      margin: 30px auto;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .item-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .item-card h3 {
+      margin: 10px 0;
+    }
+
+    .item-card p {
+      margin: 5px 0;
+      font-weight: bold;
+    }
+
+    .item-card button {
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .item-card button:hover {
+      background: #e85c50;
+    }
+
+    /* Product Detail Full Screen Modal */
+    .product-detail {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .product-content {
+      background: #fff;
+      width: 90%;
+      max-width: 900px;
+      height: 90%;
+      border-radius: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+      gap: 20px;
+
+    }
+
+    .product-content img {
+      width: 50%;
+      height: auto;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .product-info h2 {
+      margin-top: 0;
+    }
+
+    .product-info p {
+      margin: 5px 0;
+      font-size: 1.1rem;
+    }
+
+    #detailRating {
+      font-size: 1.2rem;
+      color: #ffbf00;
+      margin: 10px 0;
+    }
+
+    #detailReviews p {
+      border-bottom: 1px solid #ddd;
+      padding: 5px 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .review-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .submit-review-btn {
+      background: #ff6f61;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .back-btn {
+      background: #ff6f61;
+      /* warm orange */
+      color: white;
+      /* dark text for contrast */
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: #ff6f61;
+      transform: translateX(-2px);
+    }
+
+
+    .review-back-btn:hover {
+      background: #5a6268;
+    }
+
+
+
+    /* Cart Modal */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cart-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 400px;
+      max-height: 80%;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .cart-back {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ff6f61;
+    }
+
+    /* Cart item layout fix */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Product image in cart */
+    .cart-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* Cart item text section */
+    .cart-info {
+      flex: 1;
+    }
+
+    /* Price text */
+    .cart-info p {
+      margin: 4px 0;
+      font-weight: bold;
+    }
+
+    .offer-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #e74c3c;
+      color: white;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .item-card {
+      position: relative;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .new-price {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+
+    /* Quantity controls */
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    /* + and - buttons */
+    .qty-controls button {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: #ff6f61;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .qty-controls span {
+      min-width: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Cart modal width improvement */
+    .cart-content {
+      width: 420px;
+    }
+
+
+    #total {
+      font-weight: bold;
+      margin-top: 15px;
+      text-align: right;
+    }
+
+
+    #addCartDetail {
+      background: linear-gradient(90deg, #f4a20a, #ff6f61);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Hover effect */
+    #addCartDetail:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      opacity: 0.95;
+    }
+
+    /* Click effect */
+    #addCartDetail:active {
+      transform: scale(0.96);
+    }
+
+    /* When converted to "View Cart" */
+    #addCartDetail.view-cart {
+      background: linear-gradient(90deg, #2ecc71, #27ae60);
+    }
+
+
+    #placeOrder {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #placeOrder:hover {
+      background: #e85c50;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1 style="cursor:pointer" onclick="goHome()">🍽️ Restaurant</h1>
+
+    <div class="cart-icon" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
+  </header>
+
+  <nav id="mainNav" style="display: none;">
+    <a onclick="showSection('home', this)">Home</a>
+    <a onclick="showSection('biryanis', this)">Biryanis</a>
+    <a onclick="showSection('cakes', this)">Cakes</a>
+    <a onclick="showSection('starters', this)">Starters</a>
+    <a onclick="showSection('chocolates', this)">Chocolates</a>
+    <a onclick="showSection('desserts', this)">Desserts</a>
+    <a onclick="showSection('drinks', this)">Drinks</a>
+  </nav>
+
+  <!-- Home Section -->
+  <div class="home-hero" id="home">
+    <div class="home-overlay">
+      <h1>Welcome to Our Restaurant 🍽️</h1>
+      <p>Delicious food • Fast delivery • Great taste</p>
+      <button onclick="openMainPage()">Start Ordering</button>
+    </div>
+  </div>
+  <!-- Home Menu Grid (like Swiggy categories) -->
+  <div class="dashboard" id="homeMenu" style="display: none;">
+    <div class="item-card" onclick="showSection('biryanis', document.querySelector('nav a:nth-child(2)'))">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9Tw6cZWpDVACgNwAaqls8uxiPMPrUimMTA&s"
+        alt="Biryanis">
+      <h3>Biryanis</h3>
+    </div>
+
+    <div class="item-card" onclick="showSection('cakes', document.querySelector('nav a:nth-child(3)'))">
+      <img
+        src="https://theovenchef.com/wp-content/uploads/2023/08/WhatsApp-Image-2023-11-01-at-5.39.28-PM-1-scaled-e1698841246352.jpeg"
+        alt="Cakes">
+      <h3>Cakes</h3>
+    </div>
+
+    <div class="item-card" onclick="showSection('starters', document.querySelector('nav a:nth-child(4)'))">
+      <img src="https://thaicaliente.com/wp-content/uploads/2020/09/Spring-Roll-Feature.jpg" alt="Starters">
+      <h3>Starters</h3>
+    </div>
+
+    <div class="item-card" onclick="showSection('chocolates', document.querySelector('nav a:nth-child(5)'))">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Schokolade-schwarz-braun-weiss.jpg/500px-Schokolade-schwarz-braun-weiss.jpg"
+        alt="Chocolates">
+      <h3>Chocolates</h3>
+    </div>
+
+    <div class="item-card" onclick="showSection('desserts', document.querySelector('nav a:nth-child(6)'))">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Ice_cream_with_whipped_cream%2C_chocolate_syrup%2C_and_a_wafer_%28cropped%29.jpg"
+        alt="Desserts">
+      <h3>Desserts</h3>
+    </div>
+
+    <div class="item-card" onclick="showSection('drinks', document.querySelector('nav a:nth-child(7)'))">
+      <img src="https://cookingfromheart.com/wp-content/uploads/2022/04/Cold-Coffee-4.jpg" alt="Drinks">
+      <h3>Drinks</h3>
+    </div>
+  </div>
+
+
+
+  <!-- Biryanis -->
+  <div class="dashboard" id="biryanis">
+    <div class="item-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9Tw6cZWpDVACgNwAaqls8uxiPMPrUimMTA&s"
+        alt="Chicken Biryani" onclick="showProductDetail('Chicken Biryani','biryanis')">
+      <h3>Chicken Biryani</h3>
+      <p id="price-Chicken Biryani"></p>
+      <button data-item="Chicken Biryani"
+        onclick="addToCart('Chicken Biryani',  getFinalPrice(productData['Chicken Biryani']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://www.chefkunalkapur.com/wp-content/uploads/2023/11/DSC07512-1300x731.jpg?v=1699167800"
+        alt="Veg Biryani" onclick="showProductDetail('Veg Biryani','biryanis')">
+      <h3>Veg Biryani</h3>
+      <p id="price-Veg Biryani"></p>
+
+      <button data-item="Veg Biryani"
+        onclick="addToCart('Veg Biryani',  getFinalPrice(productData['Veg Biryani']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img
+        src="https://png.pngtree.com/png-clipart/20240927/original/pngtree-a-plate-of-beef-or-mutton-biryani-png-image_16104837.png"
+        alt="Mutton Biryani" onclick="showProductDetail('Mutton Biryani','biryanis')">
+      <h3>Mutton Biryani</h3>
+      <p id="price-Mutton Biryani"></p>
+
+      <button data-item="Mutton Biryani"
+        onclick="addToCart('Mutton Biryani', getFinalPrice(productData['Mutton Biryani']),this)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Cakes -->
+  <div class="dashboard" id="cakes">
+    <div class="item-card">
+      <img
+        src="https://theovenchef.com/wp-content/uploads/2023/08/WhatsApp-Image-2023-11-01-at-5.39.28-PM-1-scaled-e1698841246352.jpeg"
+        alt="Chocolate Cake" onclick="showProductDetail('Chocolate Cake','cakes')">
+      <h3>Chocolate Cake</h3>
+      <p id="price-Chocolate Cake"></p>
+
+      <button data-item="Chocolate Cake"
+        onclick="addToCart('Chocolate Cake', getFinalPrice(productData['Chocolate Cake']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://atsloanestable.com/wp-content/uploads/2022/01/small-vanilla-cake3.jpg" alt="Vanilla Cake"
+        onclick="showProductDetail('Vanilla Cake','cakes')">
+      <h3>Vanilla Cake</h3>
+      <p id="price-Vanilla Cake"></p>
+
+      <button data-item="Vanilla Cake"
+        onclick="addToCart('Vanilla Cake',  getFinalPrice(productData['Vanilla Cake']),this)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Starters -->
+  <div class="dashboard" id="starters">
+    <div class="item-card">
+      <img src="https://thaicaliente.com/wp-content/uploads/2020/09/Spring-Roll-Feature.jpg" alt="Spring Rolls"
+        onclick="showProductDetail('Spring Rolls','starters')">
+      <h3>Spring Rolls</h3>
+      <p id="price-Spring Rolls"></p>
+
+      <button data-item="Spring Rolls"
+        onclick="addToCart('Spring Rolls',  getFinalPrice(productData['Spring Rolls']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2022/11/tomato-soup-recipe.jpg" alt="Soup"
+        onclick="showProductDetail('Tomato Soup','starters')">
+      <h3>Tomato Soup</h3>
+      <p id="price-Tomato Soup"></p>
+
+      <button data-item="Tomato Soup"
+        onclick="addToCart('Tomato Soup',  getFinalPrice(productData['Tomato Soup']),this)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Chocolates -->
+  <div class="dashboard" id="chocolates">
+    <div class="item-card">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Schokolade-schwarz-braun-weiss.jpg/500px-Schokolade-schwarz-braun-weiss.jpg"
+        alt="Dark Chocolate" onclick="showProductDetail('Dark Chocolate','chocolates')">
+      <h3>Dark Chocolate</h3>
+      <p id="price-Dark Chocolate"></p>
+
+      <button data-item="Dark Chocolate"
+        onclick="addToCart('Dark Chocolate',  getFinalPrice(productData['Dark Chocolate']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://www.cocoterra.com/wp-content/uploads/white-chocolate-with-milk-powder.jpg" alt="Milk Chocolate"
+        onclick="showProductDetail('Milk Chocolate','chocolates')">
+      <h3>Milk Chocolate</h3>
+      <p id="Milk Chocolate"></p>
+
+      <button data-item="Milk Chocolate"
+        onclick="addToCart('Milk Chocolate',  getFinalPrice(productData['Milk Chocolate']),this)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Desserts -->
+  <div class="dashboard" id="desserts">
+    <div class="item-card">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Ice_cream_with_whipped_cream%2C_chocolate_syrup%2C_and_a_wafer_%28cropped%29.jpg"
+        alt="Ice Cream" onclick="showProductDetail('Ice Cream','desserts')">
+      <h3>Ice Cream</h3>
+      <p id="price-Ice Cream"></p>
+
+      <button data-item="Ice cream" onclick="addToCart('Ice Cream',  getFinalPrice(productData['Ice Cream']),this)">Add
+        to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://www.recipessimple.com/wp-content/uploads/2023/08/Chocolate-Brownie-Ice-Cream-Recipe.jpg"
+        alt="Brownie" onclick="showProductDetail('Brownie','desserts')">
+      <h3>Chocolate Brownie</h3>
+      <p id="price-Chocolate Brownie"></p>
+
+      <button data-item="Chocolate Brownie"
+        onclick="addToCart('Chocolate Brownie',  getFinalPrice(productData['Chocolate Brownie']),this)">Add to
+        Cart</button>
+    </div>
+  </div>
+
+  <!-- Drinks -->
+  <div class="dashboard" id="drinks">
+    <div class="item-card">
+      <img src="https://cookingfromheart.com/wp-content/uploads/2022/04/Cold-Coffee-4.jpg" alt="Cold Coffee"
+        onclick="showProductDetail('Cold Coffee','drinks')">
+      <h3>Cold Coffee</h3>
+      <p id="price-Cold Coffee"></p>
+
+      <button data-item="Cold Coffee"
+        onclick="addToCart('Cold Coffee',  getFinalPrice(productData['Cold Coffee']),this)">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://dinnerthendessert.com/wp-content/uploads/2025/06/Lemonade-Recipe-10.jpg" alt="Lemonade"
+        onclick="showProductDetail('Lemoande','drinks')">
+      <h3>Lemonade</h3>
+      <p id="price-Lemonade"></p>
+
+      <button data-item="Lemonade" onclick="addToCart('Lemonade',  getFinalPrice(productData['Lemonade']),this)">Add to
+        Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="https://t3.ftcdn.net/jpg/01/87/65/02/360_F_187650225_yiZwjK4HjPVxlD8npzCRUuaoodF39Kby.jpg"
+        alt="Mango Juice" onclick="showProductDetail('Mango Juice','drinks')">
+      <h3>Mango Juice</h3>
+      <p id="price-Mango Juice"></p>
+
+      <button data-item="Mango Juice"
+        onclick="addToCart('Mango Juice', getFinalPrice(productData['Mango Juice']),this)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <span class="cart-back" id="cartBackBtn">⬅ Back</span>
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div id="total">Total: ₹0</div>
+      <button id="placeOrder" onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="product-detail" id="productDetail">
+    <div class="product-content">
+      <span class="close-btn" onclick="closeProductDetail()">❌</span>
+
+      <img id="detailImg" src="" alt="Product Image">
+      <div class="product-info">
+        <h2 id="detailName"></h2>
+        <p id="detailPrice"></p>
+        <div id="detailRating"></div>
+        <h3>Reviews</h3>
+        <div id="detailReviews"></div>
+
+        <div id="addReviewBox" style="margin-top:15px; display:none;">
+          <textarea id="userReview" placeholder="Write your review..."
+            style="width:100%; height:70px; padding:8px; border-radius:6px;"></textarea>
+
+          <div class="review-actions">
+            <button onclick="submitReview()" class="submit-review-btn">
+              Submit Review
+            </button>
+
+            <button id="backBtn" class="back-btn">
+              ⬅ Back
+            </button>
+          </div>
+
+        </div><br>
+
+        <button id="addCartDetail" data-item="">Add to Cart</button>
+
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-container">
+
+      <div>
+        <h3>🍽️ Restaurant</h3>
+        <p>Delicious food, fast delivery, and great taste delivered to your door.</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <p><a onclick="openFromFooter('home')">Home</a></p>
+        <p><a onclick="openFromFooter('biryanis')">Biryanis</a></p>
+        <p><a onclick="openFromFooter('cakes')">Cakes</a></p>
+        <p><a onclick="openFromFooter('drinks')">Drinks</a></p>
+      </div>
+
+      <div>
+        <h3>Contact Us</h3>
+        <p>📍 Hyderabad, India</p>
+        <p>📞 +91 98765 43210</p>
+        <p>✉️ support@restaurant.com</p>
+      </div>
+
+      <div>
+        <h3>Opening Hours</h3>
+        <p>Mon – Fri: 10 AM – 10 PM</p>
+        <p>Sat – Sun: 9 AM – 11 PM</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Restaurant App | Designed by You ❤️
+    </div>
+  </footer>
+
+
+  <script>
+    let cart = [];
+    let total = 0;
+    let currentSection = ""; // To remember which category user is in
+    let lastVisibleSection = null;
+    let currentProductName = "";
+    function getFinalPrice(product) {
+      if (!product.offer) return product.price;
+
+      return Math.round(
+        product.price - (product.price * product.offer) / 100
+      );
+    }
+
+
+
+    function addToCart(item, price) {
+      const product = productData[item];
+
+      let cartItem = cart.find(c => c.item === item);
+
+      if (cartItem) {
+        cartItem.qty += 1;
+      } else {
+        cart.push({
+          item,
+          price,
+          img: product.img,
+          qty: 1
+        });
+      }
+
+      updateCartUI();
+      syncButtons(item);
+    }
+    function updateCartUI() {
+      const cartDiv = document.getElementById("cartItems");
+      cartDiv.innerHTML = "";
+
+      total = 0; // reset total
+      document.getElementById("cartCount").textContent =
+        cart.reduce((sum, item) => sum + item.qty, 0);
+
+      cart.forEach((c, index) => {
+        total += c.price * c.qty;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+
+        div.innerHTML = `
+      <img src="${c.img}" class="cart-img">
+      <div class="cart-info">
+        <strong>${c.item}</strong>
+        <p>₹${c.price}</p>
+
+        <div class="qty-controls">
+          <button onclick="changeQty(${index}, -1)">−</button>
+          <span>${c.qty}</span>
+          <button onclick="changeQty(${index}, 1)">+</button>
+        </div>
+      </div>
+    `;
+
+        cartDiv.appendChild(div);
+      });
+
+      // ✅ update total price
+      document.getElementById("total").textContent = `Total: ₹${total}`;
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("cartBackBtn").onclick = function () {
+        document.getElementById("cartModal").style.display = "none";
+
+        // Restore previous screen
+        if (lastVisibleSection) {
+          lastVisibleSection.style.display =
+            lastVisibleSection.id === "productDetail" ? "flex" : "grid";
+        }
+      };
+    });
+
+    function changeQty(index, change) {
+      cart[index].qty += change;
+
+      if (cart[index].qty <= 0) {
+        const removedItem = cart[index].item;
+        cart.splice(index, 1);
+        resetButtons(removedItem);
+      }
+
+      updateCartUI();
+    }
+    function syncButtons(item) {
+      document.querySelectorAll(`button[data-item='${item}']`).forEach(btn => {
+        btn.textContent = "View Cart";
+        btn.onclick = toggleCart;
+        btn.classList.add("view-cart");
+      });
+
+      const detailBtn = document.getElementById("addCartDetail");
+      if (detailBtn.dataset.item === item) {
+        detailBtn.textContent = "View Cart";
+        detailBtn.onclick = toggleCart;
+        detailBtn.classList.add("view-cart");
+      }
+    }
+
+    function resetButtons(item) {
+      document.querySelectorAll(`button[data-item='${item}']`).forEach(btn => {
+        btn.textContent = "Add to Cart";
+        btn.onclick = () =>
+          addToCart(item, productData[item].price);
+        btn.classList.remove("view-cart");
+      });
+    }
+
+
+    function toggleCart() {
+      const modal = document.getElementById("cartModal");
+
+      if (modal.style.display === "flex") {
+        modal.style.display = "none";
+        return;
+      }
+
+      // Save currently visible section
+      lastVisibleSection = document.querySelector(
+        ".dashboard[style*='grid'], #productDetail[style*='flex'], #homeMenu[style*='grid']"
+      );
+
+      modal.style.display = "flex";
+      modal.style.justifyContent = "center";
+      modal.style.alignItems = "center";
+
+      updateCartUI();
+    }
+
+
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      alert(`Thank you! Your order total is ₹${total}.`);
+
+      cart.forEach(c => resetButtons(c.item));
+
+      cart = [];
+      total = 0;
+      document.getElementById("cartCount").textContent = 0;
+      updateCartUI();
+      toggleCart();
+    }
+
+    const productData = {
+      // Biryanis
+      "Chicken Biryani": {
+        price: 300,
+        offer: 20,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9Tw6cZWpDVACgNwAaqls8uxiPMPrUimMTA&s",
+        rating: 4.5,
+        reviews: ["Delicious and perfectly spiced!", "Best biryani I've ever had.", "Loved it, will order again."]
+      },
+      "Veg Biryani": {
+        price: 250,
+        offer: 10,
+        img: "https://www.chefkunalkapur.com/wp-content/uploads/2023/11/DSC07512-1300x731.jpg?v=1699167800",
+        rating: 4,
+        reviews: ["Very tasty and fresh.", "Good flavor, but a bit oily."]
+      },
+      "Mutton Biryani": {
+        price: 350,
+        img: "https://png.pngtree.com/png-clipart/20240927/original/pngtree-a-plate-of-beef-or-mutton-biryani-png-image_16104837.png",
+        rating: 4.8,
+        reviews: ["Perfectly cooked mutton!", "Highly recommend for biryani lovers."]
+      },
+
+      // Cakes
+      "Chocolate Cake": {
+        price: 200,
+        img: "https://theovenchef.com/wp-content/uploads/2023/08/WhatsApp-Image-2023-11-01-at-5.39.28-PM-1-scaled-e1698841246352.jpeg",
+        rating: 4.7,
+        reviews: ["Rich and moist chocolate cake.", "Kids loved it!", "Perfect sweetness."]
+      },
+      "Vanilla Cake": {
+        price: 180,
+        offer: 30,
+        img: "https://atsloanestable.com/wp-content/uploads/2022/01/small-vanilla-cake3.jpg",
+        rating: 4.3,
+        reviews: ["Soft and fluffy.", "Good for birthdays.", "Tasty but not too sweet."]
+      },
+
+      // Starters
+      "Spring Rolls": {
+        price: 120,
+        offer: 10,
+        img: "https://thaicaliente.com/wp-content/uploads/2020/09/Spring-Roll-Feature.jpg",
+        rating: 4.2,
+        reviews: ["Crispy and fresh!", "Perfect appetizer."]
+      },
+      "Tomato Soup": {
+        price: 100,
+        offer: 50,
+        img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2022/11/tomato-soup-recipe.jpg",
+        rating: 4,
+        reviews: ["Warm and comforting.", "Great taste."]
+      },
+
+      // Chocolates
+      "Dark Chocolate": {
+        price: 150,
+        offer: 30,
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Schokolade-schwarz-braun-weiss.jpg/500px-Schokolade-schwarz-braun-weiss.jpg",
+        rating: 4.6,
+        reviews: ["Rich taste.", "Perfect bitter-sweet flavor."]
+      },
+      "Milk Chocolate": {
+        price: 120,
+        offer: 50,
+        img: "https://www.cocoterra.com/wp-content/uploads/white-chocolate-with-milk-powder.jpg",
+        rating: 4.4,
+        reviews: ["Sweet and creamy.", "Melts in mouth."]
+      },
+
+      // Desserts
+      "Ice Cream": {
+        price: 80,
+        img: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Ice_cream_with_whipped_cream%2C_chocolate_syrup%2C_and_a_wafer_%28cropped%29.jpg",
+        rating: 4.5,
+        reviews: ["Cold and creamy.", "Loved it with chocolate syrup."]
+      },
+      "Chocolate Brownie": {
+        price: 120,
+        offer: 60,
+        img: "https://www.recipessimple.com/wp-content/uploads/2023/08/Chocolate-Brownie-Ice-Cream-Recipe.jpg",
+        rating: 4.7,
+        reviews: ["Chewy and chocolaty.", "Perfect dessert!"]
+      },
+
+      // Drinks
+      "Cold Coffee": {
+        price: 100,
+        offer: 10,
+        img: "https://cookingfromheart.com/wp-content/uploads/2022/04/Cold-Coffee-4.jpg",
+        rating: 4.4,
+        reviews: ["Refreshing!", "Perfect caffeine boost."]
+      },
+      "Lemonade": {
+        price: 70,
+        img: "https://dinnerthendessert.com/wp-content/uploads/2025/06/Lemonade-Recipe-10.jpg",
+        rating: 4.1,
+        reviews: ["Tangy and sweet.", "Very refreshing."]
+      },
+      "Mango Juice": {
+        price: 90,
+        img: "https://t3.ftcdn.net/jpg/01/87/65/02/360_F_187650225_yiZwjK4HjPVxlD8npzCRUuaoodF39Kby.jpg",
+        rating: 4.6,
+        reviews: ["Sweet and tropical.", "Best mango juice ever."]
+      }
+    };
+    function showProductDetail(name, sectionId) {
+      currentProductName = name;
+      currentSection = sectionId; // Store current section
+      const product = productData[name];
+      if (!product) return;
+
+      document.getElementById("productDetail").style.display = "flex";
+      document.getElementById("detailImg").src = product.img;
+      document.getElementById("detailName").textContent = name;
+      const finalPrice = getFinalPrice(product);
+
+      if (product.offer) {
+        document.getElementById("detailPrice").innerHTML = `
+    <span class="old-price">₹${product.price}</span>
+    <span class="new-price">₹${finalPrice}</span>
+    <div class="offer-badge">${product.offer}% OFF</div>
+  `;
+      } else {
+        document.getElementById("detailPrice").innerHTML =
+          `<span class="new-price">₹${product.price}</span>`;
+      }
+
+
+      // Display rating stars
+      const ratingDiv = document.getElementById("detailRating");
+      ratingDiv.innerHTML = "";
+      const fullStars = Math.floor(product.rating);
+      const halfStar = product.rating % 1 >= 0.5;
+      for (let i = 0; i < fullStars; i++) ratingDiv.innerHTML += "★";
+      if (halfStar) ratingDiv.innerHTML += "☆";
+      for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) ratingDiv.innerHTML += "☆";
+
+      // Reviews
+      renderReviews(name);
+      // Show review box ONLY for Chicken Biryani
+      document.getElementById("addReviewBox").style.display =
+        name === "Chicken Biryani" ? "block" : "none";
+
+
+      // Add to cart button
+      const btn = document.getElementById("addCartDetail");
+      btn.setAttribute("data-item", name);
+      btn.textContent = "Add to Cart";
+      btn.onclick = () => addToCart(name, getFinalPrice(product));
+
+
+
+
+      // Back button
+      document.getElementById("backBtn").onclick = () => {
+        closeProductDetail();
+        // Show the previous section grid
+        document.querySelectorAll('.dashboard').forEach(sec => sec.style.display = 'none');
+        document.getElementById(currentSection).style.display = 'grid';
+      };
+
+    }
+
+    function renderReviews(productName) {
+      const reviewDiv = document.getElementById("detailReviews");
+      reviewDiv.innerHTML = "";
+
+      productData[productName].reviews.forEach(r => {
+        const p = document.createElement("p");
+        p.textContent = r;
+        reviewDiv.appendChild(p);
+      });
+    }
+
+    function submitReview() {
+      const reviewText = document.getElementById("userReview").value.trim();
+      if (!reviewText) {
+        alert("Please write a review!");
+        return;
+      }
+
+      // Add review to Chicken Biryani
+      productData[currentProductName].reviews.unshift(reviewText);
+
+      // Clear input
+      document.getElementById("userReview").value = "";
+
+      // Re-render reviews instantly
+      renderReviews(currentProductName);
+    }
+
+
+
+    function closeProductDetail() {
+      document.getElementById("productDetail").style.display = "none";
+    }
+
+
+    function showSection(sectionId, element) {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("homeMenu").style.display = "none";
+
+      document.querySelectorAll('.dashboard').forEach(sec => {
+        sec.style.display = 'none';
+      });
+
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+
+      if (sectionId === 'home') {
+        document.getElementById("homeMenu").style.display = 'grid';
+      } else {
+        document.getElementById(sectionId).style.display = 'grid';
+      }
+
+      if (element) element.classList.add('active');
+    }
+
+    function openFromFooter(sectionId) {
+      // Show navbar
+      document.getElementById("mainNav").style.display = "flex";
+
+      // Find matching nav link
+      const navLinks = document.querySelectorAll("nav a");
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.textContent.toLowerCase() === sectionId) {
+          link.classList.add("active");
+        }
+      });
+
+      // Show section
+      showSection(sectionId);
+    }
+
+
+    function openMainPage() {
+      document.getElementById("mainNav").style.display = "flex";
+      showSection('home', document.querySelector('nav a:first-child'));
+    }
+
+    function goHome() {
+      // Show hero home page
+      document.getElementById("home").style.display = "flex";
+
+      // Hide navbar
+      document.getElementById("mainNav").style.display = "none";
+
+      // Hide home menu categories
+      document.getElementById("homeMenu").style.display = "none";
+
+      // Hide all dashboards (biryanis, cakes, etc.)
+      document.querySelectorAll('.dashboard').forEach(sec => {
+        sec.style.display = "none";
+      });
+
+      // Remove active nav highlights
+      document.querySelectorAll('nav a').forEach(a => {
+        a.classList.remove('active');
+      });
+    }
+    Object.keys(productData).forEach(name => {
+      const product = productData[name];
+      const priceEl = document.getElementById(`price-${name}`);
+
+      if (!priceEl) return;
+
+      const finalPrice = getFinalPrice(product);
+
+      if (product.offer) {
+        priceEl.innerHTML = `
+      <span class="old-price">₹${product.price}</span>
+      <span class="new-price">₹${finalPrice}</span>
+      <div class="offer-badge">${product.offer}% OFF</div>
+    `;
+      } else {
+        priceEl.innerHTML = `<span class="new-price">₹${product.price}</span>`;
+      }
+    });
+
+
+
+  </script>
+
+</body>
+
+</html>
