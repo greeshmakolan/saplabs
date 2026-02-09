@@ -1,0 +1,332 @@
+/* -------- GLOBAL -------- */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f0f2f5;
+  transition: background 0.5s ease;
+  color: #1f2937;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+/* -------- PAGE BACKGROUNDS -------- */
+.dashboard-page {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.courses-page {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  min-height: 100vh;
+}
+
+.course-page {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  min-height: 100vh;
+}
+
+.lesson-page {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  min-height: 100vh;
+}
+
+/* -------- CARDS -------- */
+.card {
+  background: white;
+  padding: 25px 30px;
+  margin: 20px auto;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 95%;
+  box-sizing: border-box;
+}
+
+.dashboard-page .card {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  backdrop-filter: blur(12px);
+}
+
+/* -------- DASHBOARD -------- */
+.dashboard-card h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.progress-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: conic-gradient(#22c55e var(--progress), rgba(255, 255, 255, 0.2) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 30px auto;
+  color: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* -------- COURSE CARD -------- */
+.course-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 95%;
+  margin: 20px auto;
+  border-left: 8px solid #4f46e5;
+  padding: 20px;
+  border-radius: 15px;
+  background: #fff;
+}
+
+.course-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-bar {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+/* -------- BUTTONS -------- */
+button {
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
+}
+
+.back-btn {
+  background: transparent;
+  color: #2563eb;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* -------- TABS -------- */
+/* -------- TABS (Lessons / Quiz) -------- */
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e5e7eb;
+  /* subtle bottom border */
+}
+
+.tab {
+  padding: 8px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #1f2937;
+  background: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab:hover {
+  color: #4f46e5;
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 3px;
+  background-color: #4f46e5;
+  transition: width 0.3s ease;
+}
+
+.tab:hover::after {
+  width: 100%;
+}
+
+.tab.active {
+  color: #4f46e5;
+}
+
+.tab.active::after {
+  width: 100%;
+}
+
+
+/* -------- COURSE CONTENT (VERTICAL) -------- */
+.course-content {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.left-panel {
+  flex: 0 0 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.right-panel {
+  flex: 1;
+}
+
+.lesson-card {
+  border-left: 6px solid #6366f1;
+  background: #f9fafb;
+  padding: 12px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lesson-card:hover {
+  background: #e0e7ff;
+}
+
+.lesson-card.selected {
+  border-left-color: #22c55e;
+  background: #d1fae5;
+}
+
+/* -------- LESSON SECTIONS -------- */
+.lesson-section {
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-section h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #4f46e5;
+}
+
+.lesson-section p {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* -------- QUIZ -------- */
+.option {
+  display: block;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border-radius: 12px;
+  background: #f1f5f9;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.option:hover {
+  background: #e0e7ff;
+}
+
+.option.selected {
+  background: #dbeafe;
+  border-left: 4px solid #2563eb;
+}
+
+/* -------- STATS & BADGES -------- */
+.badge {
+  background: #2563eb;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.success {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.error {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 900px) {
+  .course-content {
+    flex-direction: column;
+  }
+
+  .left-panel,
+  .right-panel {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .progress-circle {
+    width: 150px;
+    height: 150px;
+    font-size: 28px;
+  }
+
+  .card {
+    width: 95%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
