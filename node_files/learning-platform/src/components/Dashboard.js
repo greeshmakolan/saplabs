@@ -1,9 +1,10 @@
 import React from "react";
 
-function Dashboard({ totalCourses, enrolledCount, progress, openCourses }) {
+function Dashboard({ totalCourses, enrolledCount, progress, openCourses, resetProgress }) {
     return (
         <div>
             <h1>📊 Dashboard</h1>
+            <h1>Learning-Platform</h1>
             <div className="stats-grid">
                 <div className="stat-box">
                     <h3>Total Courses</h3>
@@ -23,7 +24,8 @@ function Dashboard({ totalCourses, enrolledCount, progress, openCourses }) {
                 {progress}%
             </div>
 
-            <button onClick={openCourses}>View Courses</button>
+            <button onClick={openCourses} style={{ marginRight: "10px" }}>View Courses</button>
+            <button onClick={resetProgress} style={{ background: "#ef4444" }}>Reset Progress</button>
         </div>
     );
 }

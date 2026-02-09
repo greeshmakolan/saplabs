@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLesson, back }) {
+function CourseDetails({
+    course,
+    enrolledCourses,
+    completedLessons,
+    completedQuizzes,
+    onCompleteLesson,
+    onCompleteQuiz,
+    back,
+}) {
     const [activeTab, setActiveTab] = useState("lessons"); // "lessons" or "quiz"
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [quizAnswers, setQuizAnswers] = useState({});
@@ -31,16 +39,16 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
 
         const total = selectedLesson.quiz.length;
         let correct = 0;
-        selectedLesson.quiz.forEach(q => {
+        selectedLesson.quiz.forEach((q) => {
             if (quizAnswers[q.id] === q.answer) correct++;
         });
 
         const score = Math.round((correct / total) * 100);
         setQuizScore(score);
 
-        // Mark lesson complete only if score >= 70
+        // Mark quiz complete only if score >= 70
         if (score >= 70) {
-            onCompleteLesson(selectedLesson.id);
+            onCompleteQuiz(selectedLesson.id);
         }
     };
 
@@ -51,7 +59,9 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
 
     return (
         <div>
-            <button className="back-btn" onClick={back}>⬅ Back</button>
+            <button className="back-btn" onClick={back}>
+                ⬅ Back
+            </button>
             <h2>{course.title}</h2>
 
             {/* Tabs */}
@@ -77,12 +87,19 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
                     {course.lessons.map((lesson) => (
                         <div
                             key={lesson.id}
-                            className={`lesson-card ${selectedLesson?.id === lesson.id ? "selected" : ""}`}
+                            className={`lesson-card ${selectedLesson?.id === lesson.id ? "selected" : ""
+                                }`}
                             onClick={() => setSelectedLesson(lesson)}
                         >
                             <span>{lesson.title}</span>
                             <span className="badge">
-                                {completedLessons.includes(lesson.id) ? "✅" : "❌"}
+                                {activeTab === "lessons"
+                                    ? completedLessons.includes(lesson.id)
+                                        ? "✅"
+                                        : "❌"
+                                    : completedQuizzes.includes(lesson.id)
+                                        ? "✅"
+                                        : "❌"}
                             </span>
                         </div>
                     ))}
@@ -90,18 +107,32 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
 
                 {/* Right Panel */}
                 <div className="right-panel">
+                    {/* LESSONS */}
                     {activeTab === "lessons" && selectedLesson && (
                         <div className="card lesson-content">
                             <h3>{selectedLesson.title}</h3>
                             <p>{selectedLesson.content}</p>
+                            {!completedLessons.includes(selectedLesson.id) && (
+                                <button
+                                    style={{ marginTop: "15px" }}
+                                    onClick={() => onCompleteLesson(selectedLesson.id)}
+                                >
+                                    Mark Lesson as Complete
+                                </button>
+                            )}
+                            {completedLessons.includes(selectedLesson.id) && (
+                                <p className="success">✅ Lesson Completed!</p>
+                            )}
                         </div>
                     )}
+
                     {activeTab === "lessons" && !selectedLesson && (
                         <div className="card lesson-content">
                             <p>Select a lesson on the left to view content.</p>
                         </div>
                     )}
 
+                    {/* QUIZ */}
                     {activeTab === "quiz" && selectedLesson && (
                         <div className="card lesson-content">
                             <h3>{selectedLesson.title} Quiz</h3>
@@ -112,7 +143,8 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
                                     {q.options.map((opt) => (
                                         <div
                                             key={opt}
-                                            className={`option ${quizAnswers[q.id] === opt ? "selected" : ""}`}
+                                            className={`option ${quizAnswers[q.id] === opt ? "selected" : ""
+                                                }`}
                                             onClick={() => handleAnswer(q.id, opt)}
                                         >
                                             {opt}
@@ -133,9 +165,11 @@ function CourseDetails({ course, enrolledCourses, completedLessons, onCompleteLe
                                         Your Score: <strong>{quizScore}%</strong>
                                     </p>
                                     {quizScore >= 70 ? (
-                                        <p className="success">✅ Lesson Completed!</p>
+                                        <p className="success">✅ Quiz Completed!</p>
                                     ) : (
-                                        <p className="error">❌ Score less than 70. Try again!</p>
+                                        <p className="error">
+                                            ❌ Score less than 70. Try again!
+                                        </p>
                                     )}
                                     <button onClick={retryQuiz}>Retry Quiz</button>
                                 </div>
