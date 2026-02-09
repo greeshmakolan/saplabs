@@ -1,0 +1,318 @@
+/* ----------------- Global ----------------- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #d0e8f2, #eaf6f9);
+  color: #222;
+  transition: background 0.4s ease;
+}
+
+/* ----------------- App Container ----------------- */
+.app-container {
+  width: 900px;
+  max-width: 95%;
+  margin: 50px auto;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 30px 35px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  transition: all 0.3s ease;
+}
+
+/* ----------------- Title ----------------- */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  color: #0d6efd;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------- Main Layout ----------------- */
+.main-layout {
+  display: flex;
+  gap: 25px;
+  flex: 1;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Panel Titles */
+.left-panel h2 {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.right-panel h2 {
+  color: #0d6efd;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ----------------- Inputs & Buttons ----------------- */
+.todo-input,
+.todo-search,
+.date-filter,
+.theme-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+input,
+select {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.4);
+  color: #222;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(34, 34, 34, 0.6);
+}
+
+input:focus,
+select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+}
+
+/* Buttons */
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Add Button */
+.todo-input .add {
+  background: linear-gradient(135deg, #28a745, #22c55e);
+}
+
+/* Date Filter Buttons */
+.date-filter button {
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+}
+
+/* Theme Toggle Button */
+.theme-toggle button {
+  background: rgba(13, 110, 253, 0.85);
+}
+
+/* ----------------- Filter Tabs ----------------- */
+.filter-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-tabs button {
+  background: rgba(13, 110, 253, 0.85);
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.filter-tabs button.active {
+  background: #0b5ed7;
+}
+
+/* ----------------- Todo List ----------------- */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border-left: 6px solid #0d6efd;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.todo-item:hover {
+  transform: translateY(-2px);
+}
+
+.todo-item.completed {
+  border-left-color: #28a745;
+}
+
+.todo-item span {
+  flex: 1;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.todo-item.completed span {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* ----------------- Due Date ----------------- */
+.due-date {
+  font-size: 12px;
+  margin-left: 10px;
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+.due-date.overdue {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* ----------------- Actions Buttons ----------------- */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* Edit */
+.actions .edit {
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+}
+
+/* Delete */
+.actions .delete {
+  background: linear-gradient(135deg, #dc3545, #b91c1c);
+}
+
+/* Save */
+.actions .save {
+  background: linear-gradient(135deg, #28a745, #22c55e);
+}
+
+/* ----------------- Bottom Actions ----------------- */
+.bottom-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.bottom-actions button {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+.bottom-actions .todo-count {
+  margin-left: auto;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ----------------- Dark Mode ----------------- */
+.app-container.dark {
+  background: rgba(20, 20, 20, 0.75);
+  color: #eee;
+}
+
+.app-container.dark h1 {
+  color: #60a5fa;
+}
+
+.app-container.dark .left-panel,
+.app-container.dark .right-panel {
+  background: rgba(40, 40, 40, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-container.dark input {
+  background: rgba(60, 60, 60, 0.6);
+  color: #fff;
+}
+
+/* ✅ DARK MODE PLACEHOLDER FIX */
+.app-container.dark input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.app-container.dark input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.app-container.dark input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.app-container.dark .todo-item {
+  background: rgba(50, 50, 50, 0.6);
+  border-left-color: #60a5fa;
+}
+
+.app-container.dark .todo-item.completed {
+  border-left-color: #22c55e;
+}
+
+.app-container.dark .due-date {
+  color: #93c5fd;
+}
+
+/* ----------------- Responsive ----------------- */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .app-container {
+    padding: 20px 25px;
+  }
+
+  .bottom-actions {
+    flex-direction: column;
+  }
+
+  .bottom-actions .todo-count {
+    margin-left: 0;
+  }
+}
