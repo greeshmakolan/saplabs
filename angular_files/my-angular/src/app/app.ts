@@ -1,26 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
-  protected readonly title = signal('my-angular');
-  number = 0
-  incrementNum() {
-    this.number += 1
-  }
+  // Counter
+  number = 0;
+  incrementNum() { this.number += 1; }
+  decrementNum() { this.number -= 1; }
+  resetNum() { this.number = 0; }
 
-  decrementNum() {
-    this.number -= 1
-  }
-
-  resetNum() {
-    this.number = 0
-  }
+  // Login
   username = '';
   password = '';
   message = '';
@@ -34,3 +30,6 @@ export class App {
   }
 }
 
+// bootstrap the app
+bootstrapApplication(App)
+  .catch(err => console.error(err));
