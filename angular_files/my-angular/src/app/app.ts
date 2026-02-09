@@ -21,4 +21,16 @@ export class App {
   resetNum() {
     this.number = 0
   }
+  username = '';
+  password = '';
+  message = '';
+
+  login() {
+    if (this.username === 'admin' && this.password === '1234') {
+      this.message = 'Login Successful 🎉';
+    } else {
+      this.message = 'Invalid Username or Password ❌';
+    }
+  }
 }
+

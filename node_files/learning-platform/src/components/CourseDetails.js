@@ -57,12 +57,26 @@ function CourseDetails({
         setQuizScore(null);
     };
 
+    // Check if course is fully completed (all lessons + quizzes)
+    const isCourseComplete = course.lessons.every(
+        (lesson) =>
+            completedLessons.includes(lesson.id) &&
+            completedQuizzes.includes(lesson.id)
+    );
+
     return (
         <div>
             <button className="back-btn" onClick={back}>
                 ⬅ Back
             </button>
+
             <h2>{course.title}</h2>
+
+            {isCourseComplete && (
+                <p className="success" style={{ fontSize: "16px" }}>
+                    ✅ Course Completed!
+                </p>
+            )}
 
             {/* Tabs */}
             <div className="tabs">
@@ -154,7 +168,10 @@ function CourseDetails({
                             ))}
 
                             {!quizScore && (
-                                <button onClick={submitQuiz} style={{ marginTop: "15px" }}>
+                                <button
+                                    onClick={submitQuiz}
+                                    style={{ marginTop: "15px" }}
+                                >
                                     Submit Quiz
                                 </button>
                             )}
@@ -167,9 +184,7 @@ function CourseDetails({
                                     {quizScore >= 70 ? (
                                         <p className="success">✅ Quiz Completed!</p>
                                     ) : (
-                                        <p className="error">
-                                            ❌ Score less than 70. Try again!
-                                        </p>
+                                        <p className="error">❌ Score less than 70. Try again!</p>
                                     )}
                                     <button onClick={retryQuiz}>Retry Quiz</button>
                                 </div>

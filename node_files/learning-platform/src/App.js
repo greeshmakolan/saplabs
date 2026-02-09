@@ -25,8 +25,33 @@ function App() {
   );
 
   // Calculate overall progress based on lessons only
-  const totalLessons = coursesData.reduce((sum, c) => sum + c.lessons.length, 0);
-  const overallProgress = Math.round((completedLessons.length / totalLessons) * 100);
+  // Total number of lessons + total number of quizzes
+  // Total number of lessons
+  // Total number of lessons across all courses
+  // Total lessons across all courses
+  // Calculate total lessons + quizzes for the course
+  const totalItems = coursesData.reduce(
+    (sum, course) => sum + course.lessons.length * 2, // *2 because each lesson has lesson + quiz
+    0
+  );
+
+  // Count completed lessons + quizzes
+  const completedItems = completedLessons.length + completedQuizzes.length;
+
+  // Overall progress %
+  const overallProgress = Math.round((completedItems / totalItems) * 100);
+  // Calculates course completion % based on lessons + quizzes
+  const getCourseCompletion = (course) => {
+    const total = course.lessons.length * 2; // each lesson + quiz counts as 2
+    const completed = course.lessons.reduce((count, lesson) => {
+      let c = 0;
+      if (completedLessons.includes(lesson.id)) c++;      // lesson complete
+      if (completedQuizzes.includes(lesson.id)) c++;      // quiz complete
+      return count + c;
+    }, 0);
+    return Math.round((completed / total) * 100);
+  };
+
 
   // Sync to localStorage
   useEffect(() => {
@@ -57,7 +82,9 @@ function App() {
           openCourses={() => setView("courses")}
           resetProgress={resetProgress}
         />
+
       )}
+
 
       {view === "courses" && (
         <Courses
@@ -65,6 +92,7 @@ function App() {
           enrolledCourses={enrolledCourses}
           setEnrolledCourses={setEnrolledCourses}
           completedLessons={completedLessons}
+          completedQuizzes={completedQuizzes}  // ✅ pass this!
           onSelectCourse={(course) => {
             setSelectedCourse(course);
             setView("course");
