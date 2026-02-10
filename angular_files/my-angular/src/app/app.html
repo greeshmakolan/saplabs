@@ -16,5 +16,6 @@
 
   <button (click)="login()">Login</button>
 
-  <p *ngIf="message">{{ message }}</p>
+  <!-- Dynamic message color -->
+  <p *ngIf="message" [class.success]="isSuccess" [class.error]="!isSuccess">{{ message }}</p>
 </div>

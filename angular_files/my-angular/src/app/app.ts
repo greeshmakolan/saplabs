@@ -13,6 +13,7 @@ export class App {
   username = '';
   password = '';
   message = '';
+  isSuccess = false; // true = green, false = red
 
   captcha = '';
   userCaptcha = '';
@@ -21,12 +22,13 @@ export class App {
     this.generateCaptcha();
   }
 
-  // Generate 5-character alphanumeric captcha
+  // Generate 5-character alphanumeric CAPTCHA
   generateCaptcha() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < 5; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      result += chars[randomIndex];
     }
     this.captcha = result;
   }
@@ -34,6 +36,7 @@ export class App {
   login() {
     if (!this.username || !this.password || !this.userCaptcha) {
       this.message = 'Please fill all fields ❌';
+      this.isSuccess = false;
       return;
     }
 
@@ -41,13 +44,16 @@ export class App {
       this.message = 'Captcha incorrect ❌';
       this.userCaptcha = '';
       this.generateCaptcha();
+      this.isSuccess = false;
       return;
     }
 
     if (this.username === 'admin' && this.password === '1234') {
       this.message = 'Login Successful 🎉';
+      this.isSuccess = true;
     } else {
       this.message = 'Invalid Username or Password ❌';
+      this.isSuccess = false;
     }
   }
 }

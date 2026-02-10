@@ -25,10 +25,17 @@ button {
     margin: 5px;
 }
 
-p {
+/* Messages: green = success, red = error */
+p.success {
     margin-top: 15px;
     font-weight: bold;
-    color: rgb(31, 192, 66);
+    color: green;
+}
+
+p.error {
+    margin-top: 15px;
+    font-weight: bold;
+    color: red;
 }
 
 /* CAPTCHA styling */
