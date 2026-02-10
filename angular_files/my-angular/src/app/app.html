@@ -25,7 +25,7 @@
     <input type="text" [(ngModel)]="regUserCaptcha">
 
     <button class="main-btn" (click)="register()">Register</button>
-    <button class="link-btn" (click)="switchMode('login')">Already have an account?</button>
+    <button class="link-btn" (click)="switchMode('login')">Already have an account?Login here</button>
 
     <p class="success" *ngIf="regSuccess">{{ regMessage }}</p>
     <p class="error" *ngIf="!regSuccess && regMessage">{{ regMessage }}</p>
@@ -51,7 +51,7 @@
     <input type="text" [(ngModel)]="loginUserCaptcha">
 
     <button class="main-btn" (click)="login()">Login</button>
-    <button class="link-btn" (click)="switchMode('register')">Create new account</button>
+    <button class="link-btn" (click)="switchMode('register')">New User.Register here</button>
 
     <p class="success" *ngIf="loginSuccess">{{ loginMessage }}</p>
     <p class="error" *ngIf="!loginSuccess && loginMessage">{{ loginMessage }}</p>
