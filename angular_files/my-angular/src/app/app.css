@@ -5,6 +5,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
+    font-family: Arial, sans-serif;
 }
 
 input {
@@ -27,4 +28,41 @@ button {
 p {
     margin-top: 15px;
     font-weight: bold;
+    color: rgb(31, 192, 66);
+}
+
+/* CAPTCHA styling */
+.captcha-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+    width: 90%;
+    border: 1px solid #999;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.captcha-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 3px;
+    user-select: none;
+}
+
+.refresh-btn {
+    margin-left: 10px;
+    padding: 4px 8px;
+    font-size: 16px;
+    background-color: #888;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background-color: #555;
 }
