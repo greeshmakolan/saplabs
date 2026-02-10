@@ -50,7 +50,7 @@
     <label>Enter Captcha :</label>
     <input type="text" [(ngModel)]="loginUserCaptcha">
 
-    <button class="main-btn" (click)="login()">Login</button>
+    <button class class="main-btn" (click)="login()">Login</button>
     <button class="link-btn" (click)="switchMode('register')">New User.Register here</button>
 
     <p class="success" *ngIf="loginSuccess">{{ loginMessage }}</p>
