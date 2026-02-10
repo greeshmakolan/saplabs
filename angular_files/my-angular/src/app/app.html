@@ -1,21 +1,61 @@
-<div class="login-container">
-  <h2>Login</h2>
+<div class="form-box">
 
-  <label>Username:</label>
-  <input type="text" [(ngModel)]="username" placeholder="Enter username" />
+  <h2 *ngIf="mode === 'register'">Registration</h2>
+  <h2 *ngIf="mode === 'login'">Login</h2>
 
-  <label>Password:</label>
-  <input type="password" [(ngModel)]="password" placeholder="Enter password" />
+  <!-- REGISTER FORM -->
+  <div *ngIf="mode === 'register'">
 
-  <label>Captcha:</label>
-  <div class="captcha-box">
-    <span class="captcha-text">{{ captcha }}</span>
-    <button type="button" class="refresh-btn" (click)="generateCaptcha()">⟳</button>
+    <label>Username :</label>
+    <input type="text" [(ngModel)]="regUsername">
+
+    <label>Password :</label>
+    <input type="password" [(ngModel)]="regPassword">
+
+    <label>Confirm Password :</label>
+    <input type="password" [(ngModel)]="regConfirmPassword">
+
+    <label>Captcha :</label>
+    <div class="captcha-box">
+      <span class="captcha-text">{{ regCaptcha }}</span>
+      <button type="button" class="captcha-refresh" (click)="generateRegCaptcha()">⟳</button>
+    </div>
+
+    <label>Enter Captcha :</label>
+    <input type="text" [(ngModel)]="regUserCaptcha">
+
+    <button class="main-btn" (click)="register()">Register</button>
+    <button class="link-btn" (click)="switchMode('login')">Already have an account?</button>
+
+    <p class="success" *ngIf="regSuccess">{{ regMessage }}</p>
+    <p class="error" *ngIf="!regSuccess && regMessage">{{ regMessage }}</p>
+
   </div>
-  <input type="text" [(ngModel)]="userCaptcha" placeholder="Enter captcha" />
 
-  <button (click)="login()">Login</button>
+  <!-- LOGIN FORM -->
+  <div *ngIf="mode === 'login'">
 
-  <!-- Dynamic message color -->
-  <p *ngIf="message" [class.success]="isSuccess" [class.error]="!isSuccess">{{ message }}</p>
+    <label>Username :</label>
+    <input type="text" [(ngModel)]="loginUsername">
+
+    <label>Password :</label>
+    <input type="password" [(ngModel)]="loginPassword">
+
+    <label>Captcha :</label>
+    <div class="captcha-box">
+      <span class="captcha-text">{{ loginCaptcha }}</span>
+      <button type="button" class="captcha-refresh" (click)="generateLoginCaptcha()">⟳</button>
+    </div>
+
+    <label>Enter Captcha :</label>
+    <input type="text" [(ngModel)]="loginUserCaptcha">
+
+    <button class="main-btn" (click)="login()">Login</button>
+    <button class="link-btn" (click)="switchMode('register')">Create new account</button>
+
+    <p class="success" *ngIf="loginSuccess">{{ loginMessage }}</p>
+    <p class="error" *ngIf="!loginSuccess && loginMessage">{{ loginMessage }}</p>
+
+  </div>
+
 </div>

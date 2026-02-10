@@ -1,75 +1,97 @@
-.login-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
+.form-box {
+    width: 360px;
+    margin: 40px auto;
+    padding: 25px;
     border: 1px solid #ccc;
-    border-radius: 10px;
-    text-align: center;
+    border-radius: 8px;
     font-family: Arial, sans-serif;
 }
 
-input {
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+label {
     display: block;
-    width: 90%;
-    margin: 10px auto;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+input {
+    width: 100%;
     padding: 8px;
+    margin-top: 4px;
+    box-sizing: border-box;
 }
 
-button {
-    padding: 8px 20px;
-    cursor: pointer;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin: 5px;
-}
-
-/* Messages: green = success, red = error */
-p.success {
-    margin-top: 15px;
-    font-weight: bold;
-    color: green;
-}
-
-p.error {
-    margin-top: 15px;
-    font-weight: bold;
-    color: red;
-}
-
-/* CAPTCHA styling */
 .captcha-box {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 10px auto;
-    width: 90%;
-    border: 1px solid #999;
-    padding: 8px;
-    border-radius: 5px;
-    background-color: #f0f0f0;
+    margin-top: 5px;
 }
 
 .captcha-text {
-    font-family: 'Courier New', Courier, monospace;
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    letter-spacing: 5px;
     font-weight: bold;
     font-size: 18px;
-    letter-spacing: 3px;
+    border: 1px dashed #555;
+    border-radius: 4px;
+
+    /* Blur / distortion effect */
+    background: repeating-linear-gradient(45deg,
+            #f2f2f2,
+            #f2f2f2 10px,
+            #e6e6e6 10px,
+            #e6e6e6 20px);
+
+    color: #333;
+    filter: blur(0.6px);
     user-select: none;
 }
 
-.refresh-btn {
-    margin-left: 10px;
-    padding: 4px 8px;
-    font-size: 16px;
-    background-color: #888;
+.captcha-refresh {
+    margin-left: 8px;
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #999;
+    border-radius: 4px;
+}
+
+.main-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #1976d2;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.refresh-btn:hover {
-    background-color: #555;
+.link-btn {
+    width: 100%;
+    margin-top: 8px;
+    background: none;
+    border: none;
+    color: #1976d2;
+    cursor: pointer;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
 }
