@@ -37,24 +37,25 @@ import { NgIf } from '@angular/common';
           <option value="faculty">Faculty</option>
         </select>
 
-        <!-- ✅ Roll No only for Student -->
+        <!-- Roll No only for student -->
         <div *ngIf="role === 'student'">
           <label>Roll No</label>
           <input type="text" [(ngModel)]="rollNo" name="rollNo" required>
         </div>
 
+        <!-- CAPTCHA -->
         <label>Captcha</label>
         <div class="captcha-box">
           <span class="captcha-text">{{ generatedCaptcha }}</span>
-          <button type="button" (click)="generateCaptcha()">⟳</button>
+          <button type="button" class="refresh-btn" (click)="generateCaptcha()">⟳</button>
         </div>
-
         <input
           type="text"
           [(ngModel)]="captchaInput"
           name="captchaInput"
           placeholder="Enter Captcha"
-          required>
+          required
+        >
 
         <button type="submit">Register</button>
       </form>
@@ -68,72 +69,123 @@ import { NgIf } from '@angular/common';
   `,
   styles: [`
     .auth-container {
-      position: relative;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: 'Segoe UI', sans-serif;
+      position: relative;
     }
+
     .bg-image {
       position: absolute;
       inset: 0;
-      background: url('https://c8.alamy.com/comp/2JG544P/visit-report-text-on-notebook-wooden-doll-on-blue-background-2JG544P.jpg')
-      no-repeat center/cover;
+      background: url('https://c8.alamy.com/comp/2JG544P/visit-report-text-on-notebook-wooden-doll-on-blue-background-2JG544P.jpg') no-repeat center/cover;
       filter: blur(8px);
+      z-index: -1;
     }
+
     .auth-box {
-      position: relative;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       padding: 40px;
       border-radius: 15px;
       width: 360px;
       z-index: 1;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-    .auth-box label {
+
+    label {
       font-weight: bold;
-      display: block;
       margin-top: 10px;
+      display: block;
     }
-    .auth-box input,
-    .auth-box select {
+
+    input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
+
+    .message {
+      background: #d1ecf1;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* CAPTCHA */
     .captcha-box {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      padding: 10px 15px;
       margin: 10px 0;
+      border-radius: 10px;
+      border: 2px dashed #888;
+      background: linear-gradient(135deg, #f4f4f4, #dedede);
+      position: relative;
+      overflow: hidden;
     }
+
     .captcha-text {
-      font-weight: bold;
-      padding: 8px 20px;
-      background: #eee;
-      border-radius: 6px;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #111;
+      filter: blur(0.6px);
+      text-shadow: 1px 1px 0 #999;
+      flex-grow: 1;
+      user-select: none;
     }
-    button {
+
+    .captcha-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(25deg, transparent 40%, rgba(0,0,0,0.3) 50%, transparent 60%),
+        linear-gradient(-20deg, transparent 35%, rgba(0,0,0,0.25) 50%, transparent 65%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .refresh-btn {
+      margin-left: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .refresh-btn:hover {
+      background: #1976d2;
+      transform: rotate(180deg);
+    }
+
+    button[type="submit"] {
       width: 100%;
       padding: 12px;
       margin-top: 15px;
       background: #007bff;
       color: white;
-      border: none;
       border-radius: 8px;
+      border: none;
       font-weight: bold;
       cursor: pointer;
     }
-    .message {
-      background: #d1ecf1;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
+
     .redirect {
       text-align: center;
       margin-top: 15px;
@@ -141,13 +193,12 @@ import { NgIf } from '@angular/common';
   `]
 })
 export class Register {
-
   username = '';
   email = '';
   password = '';
   confirmPassword = '';
   role = '';
-  rollNo = '';          // ✅ NEW
+  rollNo = '';
   captchaInput = '';
   generatedCaptcha = '';
   message = '';
@@ -157,12 +208,10 @@ export class Register {
   }
 
   generateCaptcha() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     this.generatedCaptcha = '';
     for (let i = 0; i < 5; i++) {
-      this.generatedCaptcha += chars.charAt(
-        Math.floor(Math.random() * chars.length)
-      );
+      this.generatedCaptcha += chars[Math.floor(Math.random() * chars.length)];
     }
   }
 
@@ -170,7 +219,6 @@ export class Register {
     if (!this.username || !this.email || !this.password ||
       !this.confirmPassword || !this.role || !this.captchaInput ||
       (this.role === 'student' && !this.rollNo)) {
-
       this.message = 'Please fill all fields!';
       return;
     }
@@ -180,7 +228,7 @@ export class Register {
       return;
     }
 
-    if (this.captchaInput !== this.generatedCaptcha) {
+    if (this.captchaInput.toUpperCase() !== this.generatedCaptcha) {
       this.message = 'Captcha is incorrect!';
       this.captchaInput = '';
       this.generateCaptcha();
@@ -188,17 +236,12 @@ export class Register {
     }
 
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    const exists = users.some(
-      (u: any) => u.username === this.username || u.email === this.email
-    );
-
+    const exists = users.some((u: any) => u.username === this.username || u.email === this.email);
     if (exists) {
       this.message = 'Username or email already exists!';
       return;
     }
 
-    // ✅ STORE ROLL NO ONLY FOR STUDENT
     users.push({
       username: this.username,
       email: this.email,
@@ -208,7 +251,6 @@ export class Register {
     });
 
     localStorage.setItem('users', JSON.stringify(users));
-
     this.message = 'Registration successful! Redirecting to login...';
 
     setTimeout(() => {

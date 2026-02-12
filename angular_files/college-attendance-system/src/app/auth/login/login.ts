@@ -18,7 +18,6 @@ import { NgIf } from '@angular/common';
 
       <form (ngSubmit)="login()">
 
-        <!-- ROLE -->
         <label>Login As</label>
         <select [(ngModel)]="role" name="role" required>
           <option value="">Select Role</option>
@@ -32,24 +31,24 @@ import { NgIf } from '@angular/common';
         <label>Password</label>
         <input type="password" [(ngModel)]="password" name="password" required>
 
-        <!-- Roll No only for student -->
         <div *ngIf="role === 'student'">
           <label>Roll No</label>
           <input type="text" [(ngModel)]="rollNo" name="rollNo" required>
         </div>
 
+        <!-- CAPTCHA -->
         <label>Captcha</label>
         <div class="captcha-box">
           <span class="captcha-text">{{ generatedCaptcha }}</span>
-          <button type="button" (click)="generateCaptcha()">⟳</button>
+          <button type="button" class="refresh-btn" (click)="generateCaptcha()">⟳</button>
         </div>
-
         <input
           type="text"
           [(ngModel)]="captchaInput"
           name="captchaInput"
           placeholder="Enter Captcha"
-          required>
+          required
+        >
 
         <button type="submit">Login</button>
       </form>
@@ -68,57 +67,124 @@ import { NgIf } from '@angular/common';
       justify-content: center;
       align-items: center;
       font-family: 'Segoe UI', sans-serif;
+      position: relative;
     }
+
     .bg-image {
       position: absolute;
       inset: 0;
-      background: url('https://c8.alamy.com/comp/2JG544P/visit-report-text-on-notebook-wooden-doll-on-blue-background-2JG544P.jpg')
-      no-repeat center/cover;
+      background: url('https://c8.alamy.com/comp/2JG544P/visit-report-text-on-notebook-wooden-doll-on-blue-background-2JG544P.jpg') no-repeat center/cover;
       filter: blur(8px);
+      z-index: -1;
     }
+
     .auth-box {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       padding: 40px;
       border-radius: 15px;
       width: 360px;
       z-index: 1;
     }
+
     label {
       font-weight: bold;
       margin-top: 10px;
       display: block;
     }
+
     input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
-    .captcha-box {
-      display: flex;
-      gap: 10px;
-      margin: 10px 0;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: #28a745;
-      color: white;
-      border-radius: 8px;
-      border: none;
-      font-weight: bold;
-    }
+
     .message {
       background: #f8d7da;
       padding: 10px;
       margin-bottom: 10px;
     }
+
+    /* CAPTCHA */
+    .captcha-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 2px dashed #888;
+      background: linear-gradient(135deg, #f4f4f4, #dedede);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .captcha-text {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #111;
+      filter: blur(0.6px);
+      text-shadow: 1px 1px 0 #999;
+      flex-grow: 1;
+      user-select: none;
+    }
+
+    /* noise overlay */
+    .captcha-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(25deg, transparent 40%, rgba(0, 0, 0, 0.3) 50%, transparent 60%),
+        linear-gradient(-20deg, transparent 35%, rgba(0, 0, 0, 0.25) 50%, transparent 65%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .refresh-btn {
+      margin-left: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background:#007bff ;
+      color: #fff;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .refresh-btn:hover {
+      background:#007bff;
+      transform: rotate(180deg);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #007bff;
+      color: white;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .redirect {
+      text-align: center;
+      margin-top: 12px;
+    }
   `]
 })
 export class Login {
-
   username = '';
   password = '';
   rollNo = '';
@@ -140,14 +206,12 @@ export class Login {
   }
 
   login() {
-    // 🔴 Required field check
     if (!this.username || !this.password || !this.role || !this.captchaInput) {
       this.message = 'Please fill all fields';
       return;
     }
 
-    // 🔴 Captcha check
-    if (this.captchaInput !== this.generatedCaptcha) {
+    if (this.captchaInput.toUpperCase() !== this.generatedCaptcha) {
       this.message = 'Invalid captcha';
       this.captchaInput = '';
       this.generateCaptcha();
@@ -155,8 +219,6 @@ export class Login {
     }
 
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    // 🔍 Find user
     const user = users.find((u: any) =>
       u.username === this.username &&
       u.password === this.password &&
@@ -168,7 +230,6 @@ export class Login {
       return;
     }
 
-    // 🎓 Student roll no validation
     if (this.role === 'student') {
       if (!this.rollNo) {
         this.message = 'Please enter Roll No';
@@ -180,14 +241,9 @@ export class Login {
       }
     }
 
-    // ✅ Save login session
     localStorage.setItem('loggedInUser', JSON.stringify(user));
-
-    // 🚀 Redirect
     this.router.navigate([
-      user.role === 'faculty'
-        ? '/faculty-dashboard'
-        : '/student-dashboard'
+      user.role === 'faculty' ? '/faculty-dashboard' : '/student-dashboard'
     ]);
   }
 }

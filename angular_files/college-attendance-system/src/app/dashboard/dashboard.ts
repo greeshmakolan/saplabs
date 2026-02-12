@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'app-dashboard',
-    standalone: true,
-    imports: [RouterModule],
-    template: `
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [RouterModule],
+  template: `
     <div class="dashboard-container">
 
       <!-- Header -->
@@ -24,14 +24,14 @@ import { RouterModule } from '@angular/router';
 
         <!-- Buttons overlay on bottom of image -->
         <div class="image-buttons">
-          <a routerLink="/student-dashboard" class="btn student-btn">Student Dashboard</a>
-          <a routerLink="/faculty-dashboard" class="btn faculty-btn">Faculty Dashboard</a>
+          <a routerLink="/login" class="btn loginuser-btn">Login</a>
+          <a routerLink="/register" class="btn newregistration-btn">New Registration</a>
         </div>
       </div>
 
     </div>
   `,
-    styles: [`
+  styles: [`
     /* Full screen container */
     .dashboard-container {
       display: flex;
@@ -122,11 +122,11 @@ import { RouterModule } from '@angular/router';
       color: white;
     }
 
-    .student-btn { background-color: #28a745; }
-    .student-btn:hover { background-color: #1e7e34; }
+    .loginuser-btn { background-color: #28a745; }
+    .loginuser-btn:hover { background-color: #1e7e34; }
 
-    .faculty-btn { background-color: #ffc107; color: #333; }
-    .faculty-btn:hover { background-color: #e0a800; }
+    .newregistration-btn { background-color: #ffc107; color: #333; }
+    .newregistration-btn:hover { background-color: #e0a800; }
 
     /* Responsive */
     @media (max-width: 768px) {

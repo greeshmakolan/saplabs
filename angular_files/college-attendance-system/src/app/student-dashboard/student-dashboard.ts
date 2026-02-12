@@ -25,13 +25,20 @@ interface Student {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
+<!-- HEADER -->
+<div class="dashboard-header">
+  <h1>Student Dashboard</h1>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>
+
 <div class="dashboard-container">
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <!-- Profile Thumbnail Always Visible -->
+    <!-- Profile Thumbnail -->
     <div class="sidebar-profile" (click)="activeSection='profile'">
-      <img [src]="student?.photo || 'assets/default-avatar.png'" alt="Profile" class="sidebar-photo">
+      <img [src]="student?.photo || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'" 
+           alt="Profile" class="sidebar-photo">
       <h3>{{ student?.name }}</h3>
     </div>
 
@@ -46,61 +53,56 @@ interface Student {
   <div class="content-panel">
 
     <!-- PROFILE SECTION -->
-    <div *ngIf="activeSection==='profile'" class="form-card">
+    <div *ngIf="activeSection==='profile'" class="form-card" style="text-align:center;">
       <h2>My Profile</h2>
-      <div class="profile-details" style="text-align:center;">
-        <img 
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" 
-          alt="Profile" 
-          class="profile-photo"
-        >
-        <p><strong>Name:</strong> {{ student?.name }}</p>
-        <p><strong>Roll No:</strong> {{ student?.rollNo }}</p>
-        <p *ngIf="student?.class"><strong>Class:</strong> {{ student?.class }}</p>
-        <p *ngIf="student?.email"><strong>Email:</strong> {{ student?.email }}</p>
+      <img 
+        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" 
+        alt="Profile" 
+        class="profile-photo"
+      >
+      <p><strong>Name:</strong> {{ student?.name }}</p>
+      <p><strong>Roll No:</strong> {{ student?.rollNo }}</p>
+      <p *ngIf="student?.class"><strong>Class:</strong> {{ student?.class }}</p>
+      <p *ngIf="student?.email"><strong>Email:</strong> {{ student?.email }}</p>
+    </div>
+
+    <!-- MY ATTENDANCE -->
+    <div *ngIf="activeSection==='myAttendance'" class="form-card">
+      <h2>Overall Attendance</h2>
+
+      <!-- Filters -->
+      <label>Subject:
+        <select [(ngModel)]="selectedSubject" (change)="filterOverall()">
+          <option value="">All Subjects</option>
+          <option *ngFor="let sub of subjects" [value]="sub">{{ sub }}</option>
+        </select>
+      </label>
+      <label style="margin-left:20px;">Date:
+        <select [(ngModel)]="selectedDate" (change)="filterOverall()">
+          <option value="">All Dates</option>
+          <option *ngFor="let d of dates" [value]="d">{{ d }}</option>
+        </select>
+      </label>
+
+      <!-- Pie Chart -->
+      <div style="max-width:400px; margin:20px auto;">
+        <canvas #attendancePie></canvas>
+      </div>
+
+      <!-- Stats -->
+      <p>Total Classes: {{ totalClasses }}</p>
+      <p>Present: {{ presentCount }} ({{ presentPercentage }}%)</p>
+      <p>Absent: {{ absentCount }} ({{ absentPercentage }}%)</p>
+
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="presentPercentage" [style.background]="getProgressColor(presentPercentage)">
+          {{ presentPercentage }}%
+        </div>
       </div>
     </div>
 
-
-    <!-- MY ATTENDANCE -->
-<div *ngIf="activeSection==='myAttendance'" class="form-card">
-  <h2>Overall Attendance</h2>
-
-  <!-- Filters -->
-  <label>Subject:
-    <select [(ngModel)]="selectedSubject" (change)="filterOverall()">
-      <option value="">All Subjects</option>
-      <option *ngFor="let sub of subjects" [value]="sub">{{ sub }}</option>
-    </select>
-  </label>
-
-  <label style="margin-left:20px;">Date:
-    <select [(ngModel)]="selectedDate" (change)="filterOverall()">
-      <option value="">All Dates</option>
-      <option *ngFor="let d of dates" [value]="d">{{ d }}</option>
-    </select>
-  </label>
-
-  <!-- Pie Chart -->
-  <div style="max-width: 400px; margin: 20px auto;">
-    <canvas #attendancePie></canvas>
-  </div>
-
-  <!-- Stats -->
-  <p>Total Classes: {{ totalClasses }}</p>
-  <p>Present: {{ presentCount }} ({{ presentPercentage }}%)</p>
-  <p>Absent: {{ absentCount }} ({{ absentPercentage }}%)</p>
-
-  <!-- Progress Bar -->
-  <div class="progress-container">
-    <div class="progress-bar" [style.width.%]="presentPercentage" [style.background]="getProgressColor(presentPercentage)">
-      {{ presentPercentage }}%
-    </div>
-  </div>
-</div>
-
-
-    <!-- SUBJECT-WISE ATTENDANCE -->
+    <!-- SUBJECT-WISE -->
     <div *ngIf="activeSection==='subjectSummary'" class="form-card">
       <h2>Subject-wise Attendance</h2>
       <label>Subject:
@@ -135,7 +137,7 @@ interface Student {
       <p *ngIf="!subjectSummary.length">No records found for selected filters.</p>
     </div>
 
-    <!-- DATE-WISE ATTENDANCE -->
+    <!-- DATE-WISE -->
     <div *ngIf="activeSection==='dateSummary'" class="form-card">
       <h2>Date-wise Attendance</h2>
       <label>Date:
@@ -164,14 +166,45 @@ interface Student {
 </div>
   `,
   styles: [`
-.dashboard-container {
+/* HEADER */
+.dashboard-header {
   display: flex;
-  min-height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #6b46c1;
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+.logout-btn {
+  background: #9f7aea;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #7c3aed;
+}
+
+/* DASHBOARD CONTAINER */
+.dashboard-container {
+  display: flex;
+  min-height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
 .sidebar {
-  width: 250px;
-  background: #1f2937;
+  width: 230px;
+  background: #5b21b6;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -190,13 +223,7 @@ interface Student {
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 10px;
-  border: 2px solid #f97316;
-}
-
-.sidebar-profile h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #fff;
+  border: 2px solid #d8b4fe;
 }
 
 .menu-card {
@@ -204,24 +231,25 @@ interface Student {
   margin-bottom: 10px;
   cursor: pointer;
   border-radius: 10px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .menu-card:hover, .menu-card.active {
-  background: #f97316;
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
 }
 
+/* CONTENT PANEL */
 .content-panel {
   flex: 1;
   padding: 25px 40px;
-  background: #f9fafb;
+  background: #f9f7fd;
 }
 
 .form-card {
-  background: #fff;
-  padding: 22px 26px;
-  border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   margin-bottom: 30px;
 }
 
@@ -230,11 +258,12 @@ interface Student {
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #f97316;
+  border: 3px solid #7c3aed;
   display: block;
-  margin: 10px auto;
+  margin: 20px auto;
 }
 
+/* PROGRESS BAR */
 .progress-container {
   width: 100%;
   background-color: #e5e7eb;
@@ -253,27 +282,35 @@ interface Student {
   border-radius: 12px;
 }
 
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 18px;
+  font-size: 14px;
 }
 
 th, td {
   padding: 12px;
   text-align: center;
-  border-bottom: 1px solid #cfe0fc;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 th {
-  background-color: #3b82f6;
-  color: #fff;
+  background: #7c3aed;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* SELECT */
+select, select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
   `],
   encapsulation: ViewEncapsulation.None
 })
 export class StudentDashboard implements OnInit, AfterViewInit {
-
   @ViewChild('attendancePie') attendancePieRef!: ElementRef<HTMLCanvasElement>;
   pieChart: any;
 
@@ -299,38 +336,30 @@ export class StudentDashboard implements OnInit, AfterViewInit {
   subjectSummary: { subject: string, present: number, absent: number, percentage: number }[] = [];
   dateSummary: Attendance[] = [];
 
-  constructor() {
-    Chart.register(...registerables);
-  }
+  constructor() { Chart.register(...registerables); }
 
   ngOnInit() {
     if (typeof window === 'undefined') return;
-
     const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
     if (!user) return;
-
     this.rollNo = user.rollNo;
-
     const students: Student[] = JSON.parse(localStorage.getItem('students') || '[]');
     this.student = students.find(s => s.rollNo === this.rollNo) || null;
-
     this.loadAttendance();
   }
 
   ngAfterViewInit() {
-    // Ensure chart renders after view is initialized
-    if (this.activeSection === 'myAttendance') {
-      this.updatePieChart();
-    }
+    if (this.activeSection === 'myAttendance') setTimeout(() => this.updatePieChart(), 0);
   }
 
   changeSection(section: string) {
     this.activeSection = section;
+    if (section === 'myAttendance') setTimeout(() => this.updatePieChart(), 0);
+  }
 
-    // Wait for DOM to render the canvas
-    if (section === 'myAttendance') {
-      setTimeout(() => this.updatePieChart(), 0);
-    }
+  logout() {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = '/login';
   }
 
   filterOverall() {
@@ -354,7 +383,6 @@ export class StudentDashboard implements OnInit, AfterViewInit {
   loadAttendance() {
     this.allAttendance = (JSON.parse(localStorage.getItem('attendance') || '[]') as Attendance[])
       .filter(a => a.rollNo === this.rollNo);
-
     this.subjects = Array.from(new Set(this.allAttendance.map(a => a.subject))).sort();
     this.dates = Array.from(new Set(this.allAttendance.map(a => a.date))).sort();
 
@@ -382,11 +410,7 @@ export class StudentDashboard implements OnInit, AfterViewInit {
       [...this.allAttendance];
   }
 
-  getProgressColor(percent: number) {
-    if (percent >= 75) return '#16a34a';
-    if (percent >= 50) return '#facc15';
-    return '#dc2626';
-  }
+  getProgressColor(percent: number) { if (percent >= 75) return '#16a34a'; if (percent >= 50) return '#facc15'; return '#dc2626'; }
 
   updatePieChart() {
     if (!this.attendancePieRef) return;

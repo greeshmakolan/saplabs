@@ -27,6 +27,10 @@ interface Attendance {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
+  <div class="dashboard-header">
+  <h1>Faculty Dashboard</h1>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</div>
 <div class="dashboard-container">
 
   <!-- LEFT MENU -->
@@ -164,19 +168,53 @@ interface Attendance {
 </div>
 `,
   styles: [`
-/* =========================
+    /* =========================
    GLOBAL
 ========================= */
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f2f5;
+  background: #f4f0fb; /* soft violet background */
   color: #1f2937;
 }
 
+/* =========================
+   HEADER
+========================= */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #6b46c1; /* violet header */
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+  background: #9f7aea; /* lighter violet */
+  color: #fff;
+  border: none;
+  padding: 14px 28px;   
+  border-radius: 12px;  
+  cursor: pointer;
+  font-weight: 600;      
+  font-size: 16px;       
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #7f5fc7; /* darker violet on hover */
+}
+
+/* =========================
+   CONTAINER
+========================= */
 .dashboard-container {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px); /* header height adjusted */
 }
 
 /* =========================
@@ -184,30 +222,30 @@ body {
 ========================= */
 .card-menu {
   width: 230px;
-  background: #1f2937;
+  background: #5b21b6; /* dark violet sidebar */
   color: #ffffff;
   display: flex;
   flex-direction: column;
   padding-top: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.15);
 }
 
 .menu-card {
   padding: 15px 20px;
   margin: 6px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
 }
 
 .menu-card:hover {
-  background: linear-gradient(90deg, #fb923c, #f59e0b);
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
   color: #ffffff;
 }
 
 .menu-card.active {
-  background: linear-gradient(90deg, #f97316, #facc15);
+  background: linear-gradient(90deg, #d8b4fe, #7c3aed);
   font-weight: 600;
 }
 
@@ -217,52 +255,55 @@ body {
 .content-panel {
   flex: 1;
   padding: 25px 40px;
-  background: #f9fafb;
+  background: #f9f7fd; /* soft violet tint */
   overflow-x: auto;
 }
 
 .back-btn {
-  background: #f97316;
+  background: #7c3aed; /* violet back button */
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
   margin-bottom: 20px;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 .back-btn:hover {
-  background: #fb923c;
+  background: #5b21b6;
 }
 
- .profile-photo {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #f97316;
-      display: block;
-      margin: 20px auto;
-    }
-    p {
-      font-size: 18px;
-      margin-top: 10px;
-    }
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #7c3aed;
+  display: block;
+  margin: 20px auto;
+}
+
+p {
+  font-size: 18px;
+  margin-top: 10px;
+}
 
 /* =========================
    FORM CARD
 ========================= */
 .form-card {
   background: #ffffff;
-  padding: 22px 26px;
-  border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   margin-bottom: 30px;
 }
 
 .form-card h2 {
   margin-top: 0;
-  color: #f97316;
+  color: #7c3aed;
 }
 
 .form-card label {
@@ -274,8 +315,8 @@ body {
 .form-card input,
 .form-card select {
   width: 100%;
-  padding: 9px 12px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid #d1d5db;
   margin-bottom: 16px;
   font-size: 14px;
@@ -287,33 +328,34 @@ body {
    BUTTONS
 ========================= */
 .form-card button {
-  background: #f97316;
+  background: #9f7aea; /* violet button */
   color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
   margin-right: 10px;
+  transition: background 0.3s ease;
 }
 
 .form-card button:hover {
-  background: #fb923c;
+  background: #7c3aed;
 }
 
 .edit-btn {
-  background: #3b82f6;
+  background: #8b5cf6; /* edit violet */
   color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
   border: none;
 }
 
 .delete-btn {
-  background: #ef4444;
+  background: #d946ef; /* pink-violet delete */
   color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
   border: none;
 }
 
@@ -335,37 +377,13 @@ table td {
 }
 
 table th {
-  background: #f97316;
+  background: #7c3aed; /* violet table header */
   color: #ffffff;
   font-weight: 600;
 }
 
-/* ❌ Removed row hover to avoid dropdown text issue */
-/* table tr:hover { background: #fef3c7; } */
-
-/* =========================
-   DROPDOWN FIX
-========================= */
 select,
 select option {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-table tr:hover select,
-table tr:hover option {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-select {
-  position: relative;
-  z-index: 9999;
-  appearance: auto;
-}
-
-::ng-deep select,
-::ng-deep option {
   background-color: #ffffff !important;
   color: #000000 !important;
 }
@@ -395,7 +413,7 @@ select {
   }
 }
 
-  `],
+ `],
   encapsulation: ViewEncapsulation.None
 })
 export class FacultyDashboard implements OnInit {
@@ -471,6 +489,11 @@ export class FacultyDashboard implements OnInit {
   cancelEdit() {
     this.editStudentMode = false;
     this.newStudent = {};
+  }
+
+  logout() {
+    localStorage.removeItem('loggedInUser'); // optional: clear logged in user
+    window.location.href = '/login';         // redirect to login page
   }
 
   saveSubject() {
