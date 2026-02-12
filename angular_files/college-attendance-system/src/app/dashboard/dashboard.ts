@@ -126,7 +126,7 @@ import { RouterModule } from '@angular/router';
     .loginuser-btn:hover { background-color: #1e7e34; }
 
     .newregistration-btn { background-color: #ffc107; color: #333; }
-    .newregistration-btn:hover { background-color: #e0a800; }
+    .-btn:hover { background-color: #e0a800; }
 
     /* Responsive */
     @media (max-width: 768px) {
