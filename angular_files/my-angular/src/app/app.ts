@@ -13,7 +13,9 @@ export class App {
 
   mode: 'register' | 'login' = 'register';
 
+  // Registration
   regUsername = '';
+  regEmail = '';
   regPassword = '';
   regConfirmPassword = '';
   regCaptcha = '';
@@ -21,7 +23,9 @@ export class App {
   regMessage = '';
   regSuccess = false;
 
+  // Login
   loginUsername = '';
+  loginEmail = '';
   loginPassword = '';
   loginCaptcha = '';
   loginUserCaptcha = '';
@@ -33,26 +37,26 @@ export class App {
     this.generateLoginCaptcha();
   }
 
-  randomCaptcha(): string {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-    let cap = '';
+  generateCaptcha(): string {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let text = '';
     for (let i = 0; i < 5; i++) {
-      cap += chars[Math.floor(Math.random() * chars.length)];
+      text += chars[Math.floor(Math.random() * chars.length)];
     }
-    return cap;
+    return text;
   }
 
   generateRegCaptcha() {
-    this.regCaptcha = this.randomCaptcha();
+    this.regCaptcha = this.generateCaptcha();
   }
 
   generateLoginCaptcha() {
-    this.loginCaptcha = this.randomCaptcha();
+    this.loginCaptcha = this.generateCaptcha();
   }
 
   register() {
-    if (!this.regUsername || !this.regPassword || !this.regConfirmPassword || !this.regUserCaptcha) {
-      this.regMessage = 'All fields required';
+    if (!this.regUsername || !this.regEmail || !this.regPassword || !this.regConfirmPassword || !this.regUserCaptcha) {
+      this.regMessage = 'All fields are required';
       this.regSuccess = false;
       return;
     }
@@ -71,18 +75,23 @@ export class App {
       return;
     }
 
-    localStorage.setItem(this.regUsername, this.regPassword);
-    this.regMessage = 'Registration successful';
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    users.push({
+      username: this.regUsername,
+      email: this.regEmail,
+      password: this.regPassword
+    });
+    localStorage.setItem('users', JSON.stringify(users));
+
+    this.regMessage = 'Registration successful 🎉';
     this.regSuccess = true;
 
-    setTimeout(() => this.mode = 'login', 1500);
+    setTimeout(() => this.mode = 'login', 1200);
   }
 
   login() {
-    const storedPass = localStorage.getItem(this.loginUsername);
-
-    if (!this.loginUsername || !this.loginPassword || !this.loginUserCaptcha) {
-      this.loginMessage = 'All fields required';
+    if (!this.loginUsername || !this.loginEmail || !this.loginPassword || !this.loginUserCaptcha) {
+      this.loginMessage = 'All fields are required';
       this.loginSuccess = false;
       return;
     }
@@ -95,8 +104,15 @@ export class App {
       return;
     }
 
-    if (storedPass === this.loginPassword) {
-      this.loginMessage = 'Login successful';
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const found = users.find((u: any) =>
+      u.username === this.loginUsername &&
+      u.email === this.loginEmail &&
+      u.password === this.loginPassword
+    );
+
+    if (found) {
+      this.loginMessage = 'Login successful 🎉';
       this.loginSuccess = true;
     } else {
       this.loginMessage = 'Invalid credentials';
