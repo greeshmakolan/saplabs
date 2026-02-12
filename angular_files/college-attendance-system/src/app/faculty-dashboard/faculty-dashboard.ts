@@ -97,6 +97,8 @@ interface Attendance {
         <option value="Absent">Absent</option>
       </select>
       <button type="submit">Save</button>
+      <button type="button" *ngIf="editAttendanceMode" (click)="cancelAttendanceEdit()">Cancel</button>
+
     </form>
 
     <!-- STUDENT OVERVIEW -->
@@ -149,7 +151,12 @@ interface Attendance {
           <td>{{ a.subject }}</td>
           <td>{{ a.date }}</td>
           <td>{{ a.status }}</td>
+          <td>
+            <button class="edit-btn" (click)="editAttendance(a)">Edit</button>
+            <button class="delete-btn" (click)="deleteAttendance(a)">Delete</button>
+          </td>
         </tr>
+
       </table>
     </div>
 
@@ -413,6 +420,9 @@ export class FacultyDashboard implements OnInit {
   studentFilter = '';
   attendanceStudentFilter = '';
   attendanceSubjectFilter = '';
+  editAttendanceMode = false;
+  editingAttendanceRecord: Attendance | null = null;
+
 
   ngOnInit() {
     if (typeof window !== 'undefined') {  // ✅ check if browser
@@ -469,24 +479,66 @@ export class FacultyDashboard implements OnInit {
     this.newSubject = {};
   }
 
+  editAttendance(record: Attendance) {
+    this.selectedStudentRoll = record.rollNo;
+    this.selectedSubjectName = record.subject;
+    this.attendanceDate = record.date;
+    this.attendanceStatus = record.status;
+
+    this.editAttendanceMode = true;
+    this.editingAttendanceRecord = record;
+    this.activeSection = 'markAttendance';
+  }
+
+
+  deleteAttendance(record: Attendance) {
+    this.attendanceList = this.attendanceList.filter(a => a !== record);
+    this.setStorage('attendance', this.attendanceList);
+  }
+
+  cancelAttendanceEdit() {
+    this.editAttendanceMode = false;
+    this.editingAttendanceRecord = null;
+    this.selectedStudentRoll = '';
+    this.selectedSubjectName = '';
+    this.attendanceDate = new Date().toISOString().split('T')[0];
+    this.attendanceStatus = 'Present';
+  }
+
+
   saveAttendance() {
     const student = this.students.find(s => s.rollNo === this.selectedStudentRoll);
     if (!student) return;
 
-    this.attendanceList.push({
+    const attendanceRecord: Attendance = {
       rollNo: student.rollNo,
       studentName: student.name!,
       subject: this.selectedSubjectName,
       date: this.attendanceDate,
       status: this.attendanceStatus
-    });
+    };
+
+    if (this.editAttendanceMode && this.editingAttendanceRecord) {
+      // Replace the old record in attendanceList
+      const index = this.attendanceList.indexOf(this.editingAttendanceRecord);
+      if (index > -1) {
+        this.attendanceList[index] = attendanceRecord;
+      }
+      this.editAttendanceMode = false;
+      this.editingAttendanceRecord = null;
+    } else {
+      this.attendanceList.push(attendanceRecord);
+    }
 
     this.setStorage('attendance', this.attendanceList);
 
+    // Reset form
     this.selectedStudentRoll = '';
     this.selectedSubjectName = '';
+    this.attendanceDate = new Date().toISOString().split('T')[0];
     this.attendanceStatus = 'Present';
   }
+
 
   getTotalClasses(rollNo: string) {
     return this.attendanceList.filter(a => a.rollNo === rollNo).length;
