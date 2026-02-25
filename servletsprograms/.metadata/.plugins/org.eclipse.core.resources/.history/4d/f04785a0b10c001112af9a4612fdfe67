@@ -1,0 +1,7 @@
+<h2>Search Book</h2>
+
+<form action="SearchBookServlet" method="get">
+    Enter Title:
+    <input type="text" name="title">
+    <input type="submit" value="Search">
+</form>

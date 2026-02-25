@@ -1,0 +1,56 @@
+package com.example.productmanagement.service;
+
+import com.example.productmanagement.entity.Product;
+import com.example.productmanagement.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository repository;
+
+    // Add product
+    public Product addProduct(Product product) {
+        if (product.getPrice() <= 0) {
+            throw new RuntimeException("Price must be greater than zero");
+        }
+        if (product.getQuantity() < 0) {
+            throw new RuntimeException("Quantity cannot be negative");
+        }
+        return repository.save(product);
+    }
+
+    // Get all products
+    public List<Product> getAllProducts() {
+        return repository.findAll();
+    }
+
+    // Get product by ID
+    public Product getProductById(Long id) {
+        Optional<Product> product = repository.findById(id);
+        return product.orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    // Update product
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product existing = getProductById(id);
+
+        existing.setName(updatedProduct.getName());
+        existing.setDescription(updatedProduct.getDescription());
+        existing.setPrice(updatedProduct.getPrice());
+        existing.setQuantity(updatedProduct.getQuantity());
+        existing.setCategory(updatedProduct.getCategory());
+
+        return repository.save(existing);
+    }
+
+    // Delete product
+    public void deleteProduct(Long id) {
+        repository.deleteById(id);
+    }
+}

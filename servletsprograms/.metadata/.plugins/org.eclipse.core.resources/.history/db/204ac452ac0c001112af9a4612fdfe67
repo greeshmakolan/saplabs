@@ -1,0 +1,6 @@
+<h2>Library Dashboard</h2>
+
+<a href="addBook.html">Add Book</a><br><br>
+<a href="ViewBookServlet">View Books</a><br><br>
+<a href="issueBook.html">Issue Book</a><br><br>
+<a href="ReturnBookServlet">Return Book</a><br><br>

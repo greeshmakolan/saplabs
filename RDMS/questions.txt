@@ -1,0 +1,50 @@
+1)list 3 real world examples where datatbases are used
+    .College management system
+    .Travel management system
+    .Banking system
+2)what is the difference between data and information
+    Data is raw, unprocessed facts or figures.
+    Information is processed, organized, and meaningful data.
+3)Name 3 RDBMS software.
+    MySQL
+    Oracle database 
+    Microsoft SQL server 
+4)Orders(OrderID,CustomerID,Amount) 
+  Customers(CustomerID,Name) 
+  Primary key for order table-OrderID
+  Foreign key for order table-CustomerID
+  Primary key and foreign key for customer table=CustomerID 
+5)Why RDMS prefered over file based system 
+    1️ Reduced Data Redundancy
+    File System: Same data is stored in multiple files → duplication.
+    RDBMS: Data is stored in tables with relationships → reduces duplication.
+
+    2️ Better Data Consistency
+    File System: Updating data in one file may not update other files → inconsistency.
+    RDBMS: Changes reflect everywhere due to centralized database.
+
+    3️ Improved Data Security
+    File System: Limited security control.
+    RDBMS: Provides user authentication, roles, and access control.
+
+    4️ Data Integrity
+    File System: No strict rules for maintaining accuracy.
+    RDBMS: Uses constraints (Primary Key, Foreign Key) to maintain correct data.
+
+    5️ Easy Data Access
+    File System: Complex and time-consuming to retrieve data.
+    RDBMS: Uses SQL queries for fast and flexible data retrieval.
+
+    6️ Multi-User Access
+    File System: Difficult to handle multiple users simultaneously.
+    RDBMS: Supports concurrent access with transaction management.
+
+6)SQL is primarily used for managing relational databases 
+
+7)DML commands:Alter,update,delete
+  DDL commands:create,insert,drop,truncate 
+
+8)Retrive data command-select
+
+9)What does the query processor do
+    A Query Processor is a component of a DBMS that interprets and executes SQL queries

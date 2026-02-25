@@ -1,0 +1,31 @@
+@WebServlet("/DeleteBookServlet")
+public class DeleteBookServlet extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps =
+                    con.prepareStatement("DELETE FROM books WHERE id=?");
+
+            ps.setInt(1, id);
+            int rows = ps.executeUpdate();
+
+            PrintWriter out = response.getWriter();
+
+            if (rows > 0)
+                out.println("Book Deleted Successfully!");
+            else
+                out.println("Book Not Found!");
+
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,47 @@
+package com.example.productmanagement.controller;
+
+import com.example.productmanagement.entity.Product;
+import com.example.productmanagement.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService service;
+
+    // POST: Create product
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return service.addProduct(product);
+    }
+
+    // GET: Get all products
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return service.getAllProducts();
+    }
+
+    // GET: Get product by ID
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return service.getProductById(id);
+    }
+
+    // PUT: Update product
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return service.updateProduct(id, product);
+    }
+
+    // DELETE: Delete product
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        service.deleteProduct(id);
+        return "Product deleted successfully";
+    }
+}

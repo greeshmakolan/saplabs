@@ -1,0 +1,83 @@
+package com.example.productmanagement.controller;
+
+import com.example.productmanagement.service.ProductService;
+import com.example.productmanagement.entity.Product;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+
+@Controller
+@RequestMapping("/products")
+public class ProductController {
+
+    private final ProductService service;
+
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
+
+    // List all products
+    @GetMapping
+    public String listProducts(Model model) {
+        model.addAttribute("products", service.getAllProducts());
+        return "products";
+    }
+
+    // Show add product form
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "add-product";
+    }
+
+    // Save new product
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product, Model model) {
+        try {
+            service.addProduct(product);
+            return "redirect:/products";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", product);
+            return "add-product";
+        }
+    }
+
+    // Show edit product form
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        try {
+            Product product = service.getProductById(id);
+            model.addAttribute("product", product);
+            return "edit-product";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "redirect:/products";
+        }
+    }
+
+    // Update product
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute("product") Product product, Model model) {
+        try {
+            service.updateProduct(product.getId(), product);
+            return "redirect:/products";
+        } catch (RuntimeException e) {  // Fixed: single catch block
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", product);
+            return "edit-product";
+        }
+    }
+
+    // Delete product
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, Model model) {
+        try {
+            service.deleteProduct(id);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/products";
+    }
+}

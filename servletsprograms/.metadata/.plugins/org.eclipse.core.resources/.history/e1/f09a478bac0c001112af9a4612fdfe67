@@ -1,0 +1,35 @@
+@WebServlet("/ViewBookServlet")
+public class ViewBookServlet extends HttpServlet {
+
+ protected void doGet(HttpServletRequest request,
+                      HttpServletResponse response)
+         throws ServletException, IOException {
+
+  response.setContentType("text/html");
+  try {
+   Connection con = DBConnection.getConnection();
+   Statement st = con.createStatement();
+   ResultSet rs = st.executeQuery("SELECT * FROM books");
+
+   response.getWriter().println("<h2>Book List</h2>");
+   response.getWriter().println("<table border=1>");
+   response.getWriter().println(
+   "<tr><th>ID</th><th>Title</th><th>Author</th><th>Quantity</th></tr>");
+
+   while (rs.next()) {
+    response.getWriter().println("<tr>");
+    response.getWriter().println("<td>"+rs.getInt(1)+"</td>");
+    response.getWriter().println("<td>"+rs.getString(2)+"</td>");
+    response.getWriter().println("<td>"+rs.getString(3)+"</td>");
+    response.getWriter().println("<td>"+rs.getInt(4)+"</td>");
+    response.getWriter().println("</tr>");
+   }
+
+   response.getWriter().println("</table>");
+   con.close();
+
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+ }
+}

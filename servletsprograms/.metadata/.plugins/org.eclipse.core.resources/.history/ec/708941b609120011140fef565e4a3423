@@ -1,0 +1,111 @@
+package com.example.productmanagement.service;
+
+import com.example.productmanagement.entity.Product;
+import com.example.productmanagement.repository.ProductRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+
+    // Add product
+    public Product addProduct(Product product) {
+        if (product.getPrice() <= 0) throw new RuntimeException("Price must be greater than zero");
+        if (product.getQuantity() < 0) throw new RuntimeException("Quantity cannot be negative");
+        return repository.save(product);
+    }
+
+    // Get all products
+    public List<Product> getAllProducts() {
+        return repository.findAll();
+    }
+
+    // Get product by ID
+    public Product getProductById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    // Update product
+    public Product package com.example.productmanagement.controller;
+
+import com.example.productmanagement.entity.Product;
+import com.example.productmanagement.service.ProductService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/products")
+public class ProductController {
+
+    private final ProductService service;
+
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
+
+    // List all products
+    @GetMapping
+    public String listProducts(Model model) {
+        model.addAttribute("products", service.getAllProducts());
+        return "products";
+    }
+
+    // Show add form
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "add-product";
+    }
+
+    // Save new product
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product) {
+        service.addProduct(product);
+        return "redirect:/products";
+    }
+
+    // Show edit form
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Product product = service.getProductById(id);
+        model.addAttribute("product", product);
+        return "edit-product";
+    }
+
+    // Update product
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute("product") Product product) {
+        service.updateProduct(product.getId(), product);
+        return "redirect:/products";
+    }
+
+    // Delete product
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        service.deleteProduct(id);
+        return "redirect:/products";
+    }
+}(Long id, Product updatedProduct) {
+        Product existing = getProductById(id);
+        existing.setName(updatedProduct.getName());
+        existing.setDescription(updatedProduct.getDescription());
+        existing.setPrice(updatedProduct.getPrice());
+        existing.setQuantity(updatedProduct.getQuantity());
+        existing.setCategory(updatedProduct.getCategory());
+        return repository.save(existing);
+    }
+
+    // Delete product
+    public void deleteProduct(Long id) {
+        repository.deleteById(id);
+    }
+}

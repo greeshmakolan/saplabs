@@ -1,0 +1,86 @@
+package com.example.productmanagement.controller;
+
+import com.example.productmanagement.entity.Product;
+import com.example.productmanagement.service.ProductService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+@RequestMapping("/products")
+public class ProductController {
+
+    private final ProductService service;
+
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
+
+    // List all products
+    @GetMapping
+    public String listProducts(Model model) {
+        model.addAttribute("products", service.getAllProducts());
+        return "products";
+    }
+
+    // Show add product form
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        if (!model.containsAttribute("product")) {
+            model.addAttribute("product", new Product());
+        }
+        return "add-product";
+    }
+
+    // Save new product
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            service.addProduct(product);
+            return "redirect:/products";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("product", product);
+            return "redirect:/products/add";
+        }
+    }
+
+    // Show edit product form
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Product product = service.getProductById(id);
+        model.addAttribute("product", product);
+        return "edit-product";
+    }
+    
+    
+    // Update product
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute("product") Product product, Model model) {
+        if (product.getId() == null) {
+            model.addAttribute("errorMessage", "Product ID missing. Cannot update.");
+            return "edit-product";
+        }
+        try {
+            service.updateProduct(product.getId(), product);
+            return "redirect:/products";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", product);
+            return "edit-product";
+        }
+    }
+
+    // Delete product
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            service.deleteProduct(id);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/products";
+    }
+}

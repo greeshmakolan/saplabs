@@ -1,0 +1,5 @@
+<form action="IssueBookServlet" method="post">
+Book ID: <input type="number" name="bookId"><br><br>
+Student Name: <input type="text" name="student"><br><br>
+<input type="submit" value="Issue">
+</form>

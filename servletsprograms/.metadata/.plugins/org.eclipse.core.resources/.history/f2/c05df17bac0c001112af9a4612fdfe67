@@ -1,0 +1,31 @@
+@WebServlet("/AddBookServlet")
+public class AddBookServlet extends HttpServlet {
+
+ protected void doPost(HttpServletRequest request,
+                       HttpServletResponse response)
+         throws ServletException, IOException {
+
+  String title = request.getParameter("title");
+  String author = request.getParameter("author");
+  int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+  try {
+   Connection con = DBConnection.getConnection();
+
+   PreparedStatement ps = con.prepareStatement(
+     "INSERT INTO books(title,author,quantity) VALUES(?,?,?)");
+
+   ps.setString(1, title);
+   ps.setString(2, author);
+   ps.setInt(3, quantity);
+
+   ps.executeUpdate();
+
+   response.getWriter().println("Book Added Successfully!");
+   con.close();
+
+  } catch (Exception e) {
+   e.printStackTrace();
+  }
+ }
+}
