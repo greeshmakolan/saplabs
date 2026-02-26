@@ -1,0 +1,25 @@
+<h2>Update Employee</h2>
+<form [formGroup]="employeeForm" (ngSubmit)="update()">
+    <label>Name:</label>
+    <input formControlName="name" />
+    <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">
+        Name is required.
+    </div>
+
+    <label>Email:</label>
+    <input formControlName="email" />
+    <div *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched">
+        Valid email is required.
+    </div>
+
+    <label>Phone:</label>
+    <input formControlName="phone" />
+
+    <label>Department:</label>
+    <input formControlName="department" />
+
+    <label>Salary:</label>
+    <input formControlName="salary" />
+
+    <button type="submit" [disabled]="employeeForm.invalid">Update Employee</button>
+</form>

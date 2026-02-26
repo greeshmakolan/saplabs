@@ -1,0 +1,24 @@
+<h2>Employee List</h2>
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Department</th>
+        <th>Salary</th>
+        <th>Actions</th>
+    </tr>
+    <tr *ngFor="let emp of employees()">
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.phone }}</td>
+        <td>{{ emp.department }}</td>
+        <td>{{ emp.salary }}</td>
+        <td>
+            <button (click)="router.navigate(['/update-employee', emp.id])">Edit</button>
+            <button (click)="deleteEmployee(emp.id)">Delete</button>
+        </td>
+    </tr>
+</table>

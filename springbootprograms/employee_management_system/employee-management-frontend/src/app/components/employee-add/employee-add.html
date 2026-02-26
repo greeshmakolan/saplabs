@@ -1,0 +1,25 @@
+<h2>Add Employee</h2>
+<form [formGroup]="employeeForm" (ngSubmit)="submit()">
+    <label>Name:</label>
+    <input formControlName="name" placeholder="Enter name" />
+    <div *ngIf="employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched">
+        Name is required.
+    </div>
+
+    <label>Email:</label>
+    <input type="email" formControlName="email" placeholder="Enter email" />
+    <div *ngIf="employeeForm.controls['email'].invalid && employeeForm.controls['email'].touched">
+        Enter a valid email.
+    </div>
+
+    <label>Phone:</label>
+    <input formControlName="phone" placeholder="Enter phone" />
+
+    <label>Department:</label>
+    <input formControlName="department" placeholder="Enter department" />
+
+    <label>Salary:</label>
+    <input type="number" formControlName="salary" placeholder="Enter salary" />
+
+    <button type="submit">Add Employee</button>
+</form>
